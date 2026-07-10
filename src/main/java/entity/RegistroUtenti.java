@@ -1,0 +1,37 @@
+package entity;
+
+import database.GestorePersistenza;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Registro degli utenti. Incapsula l'accesso ai dati di {@link Utente} e
+ * sottotipi tramite {@link GestorePersistenza}. Appartiene al livello entity.
+ */
+public class RegistroUtenti {
+
+    private final GestorePersistenza gestore = new GestorePersistenza();
+
+    public Paziente getPaziente(String email) {
+        return gestore.trovaPerId(Paziente.class, email);
+    }
+
+    public Medico getMedico(String email) {
+        return gestore.trovaPerId(Medico.class, email);
+    }
+
+    public Amministratore getAmministratore(String email) {
+        return gestore.trovaPerId(Amministratore.class, email);
+    }
+
+    public List<Medico> getTuttiMedici() {
+        return gestore.cercaTutti(Medico.class);
+    }
+
+    /** Medici di una data specializzazione. */
+    public List<Medico> getMediciPerSpecializzazione(Specializzazione specializzazione) {
+        return gestore.cercaPerCampi(Medico.class,
+                Map.of("specializzazione", specializzazione));
+    }
+}
