@@ -2,171 +2,141 @@ package boundary;
 
 import com.toedter.calendar.JDateChooser;
 import controller.ControllerPrenotazioni;
-import entity.DisponibilitaMedico;
-import entity.Medico;
-import entity.SlotOrario;
-import entity.Specializzazione;
 
 import javax.swing.*;
-import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Boundary del caso d'uso "Effettua prenotazione".
- * Il paziente sceglie specializzazione, medico, data e orario libero e conferma.
- * A prenotazione avvenuta, la notifica di conferma è inviata tramite il
- * {@link SistemaNotifiche} (COTS), coerentemente col pattern BCED.
+ * Il paziente sceglie specializzazione, medico, data e fascia oraria libera e
+ * conferma. A prenotazione avvenuta, la notifica di conferma è inviata tramite
+ * il {@link SistemaNotifiche} (COTS), coerentemente col pattern BCED.
+ *
+ * <p>La UI è definita in {@code FormEffettuaPrenotazione.form}. La boundary
+ * comunica solo con il {@link ControllerPrenotazioni} e riceve dati come
+ * stringhe: non importa mai il package {@code entity}.</p>
  */
-public class FormEffettuaPrenotazione extends JFrame {
+public class FormEffettuaPrenotazione {
+
+    private JPanel effettuaPrenotazionePanel;
+    private JTextField campoEmailPaziente;
+    private JComboBox<String> comboSpecializzazione;
+    private JComboBox<String> comboMedico;
+    private JDateChooser selettoreData;
+    private JComboBox<String> comboFascia;
+    private JButton prenotaButton;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
-    private final JTextField campoEmailPaziente = new JTextField(20);
-    private final JComboBox<Specializzazione> comboSpecializzazione = new JComboBox<>();
-    private final JComboBox<Medico> comboMedico = new JComboBox<>();
-    private final JDateChooser selettoreData = new JDateChooser();
-    private final JComboBox<SlotOrario> comboOrario = new JComboBox<>();
+    /** Medici correnti della specializzazione selezionata: coppie {email, nome}. */
+    private List<String[]> mediciCorrenti = new ArrayList<>();
 
     public FormEffettuaPrenotazione() {
-        super("Effettua prenotazione");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(460, 320);
-        setLocationRelativeTo(null);
-        inizializza();
-    }
-
-    private void inizializza() {
-        JPanel pannello = new JPanel(new GridBagLayout());
-        pannello.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6, 6, 6, 6);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-
-        int r = 0;
-        aggiungiRiga(pannello, gbc, r++, "Email paziente:", campoEmailPaziente);
-        aggiungiRiga(pannello, gbc, r++, "Specializzazione:", comboSpecializzazione);
-        aggiungiRiga(pannello, gbc, r++, "Medico:", comboMedico);
-        aggiungiRiga(pannello, gbc, r++, "Data:", selettoreData);
-        aggiungiRiga(pannello, gbc, r++, "Orario:", comboOrario);
-
-        JButton bottonePrenota = new JButton("Prenota");
-        gbc.gridx = 1;
-        gbc.gridy = r;
-        pannello.add(bottonePrenota, gbc);
-
-        add(pannello);
-
-        // Popola le specializzazioni
-        for (Specializzazione s : controller.getSpecializzazioni()) {
-            comboSpecializzazione.addItem(s);
+        for (String descrizione : controller.getSpecializzazioni()) {
+            comboSpecializzazione.addItem(descrizione);
         }
         comboSpecializzazione.setSelectedIndex(-1);
 
-        // Listener: aggiornano le combo a cascata
         comboSpecializzazione.addActionListener(e -> aggiornaMedici());
-        comboMedico.addActionListener(e -> aggiornaOrari());
-        selettoreData.getDateEditor().addPropertyChangeListener("date", e -> aggiornaOrari());
-        bottonePrenota.addActionListener(e -> prenota());
-
-        // Rendering leggibile delle combo
-        comboMedico.setRenderer(new MedicoRenderer());
-    }
-
-    private void aggiungiRiga(JPanel p, GridBagConstraints gbc, int riga,
-                              String etichetta, JComponent campo) {
-        gbc.gridx = 0;
-        gbc.gridy = riga;
-        gbc.weightx = 0;
-        p.add(new JLabel(etichetta), gbc);
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-        p.add(campo, gbc);
+        comboMedico.addActionListener(e -> aggiornaFasce());
+        selettoreData.getDateEditor().addPropertyChangeListener("date", e -> aggiornaFasce());
+        prenotaButton.addActionListener(e -> prenota());
     }
 
     private void aggiornaMedici() {
         comboMedico.removeAllItems();
-        Specializzazione s = (Specializzazione) comboSpecializzazione.getSelectedItem();
-        if (s == null) {
+        String specializzazione = (String) comboSpecializzazione.getSelectedItem();
+        if (specializzazione == null) {
+            mediciCorrenti = new ArrayList<>();
             return;
         }
-        for (Medico m : controller.getMedici(s)) {
-            comboMedico.addItem(m);
+        mediciCorrenti = controller.getMedici(specializzazione);
+        for (String[] medico : mediciCorrenti) {
+            comboMedico.addItem(medico[1]);
         }
     }
 
-    private void aggiornaOrari() {
-        comboOrario.removeAllItems();
-        Medico medico = (Medico) comboMedico.getSelectedItem();
-        if (medico == null || selettoreData.getDate() == null) {
+    private void aggiornaFasce() {
+        comboFascia.removeAllItems();
+        String emailMedico = emailMedicoSelezionato();
+        if (emailMedico == null || selettoreData.getDate() == null) {
             return;
         }
         String data = formato.format(selettoreData.getDate());
-        DisponibilitaMedico disp = controller.visualizzaDisponibilita(medico.getEmail(), data);
-        if (disp == null) {
-            return;
-        }
-        List<SlotOrario> liberi = disp.getFasceOrarieDisponibili();
-        for (SlotOrario slot : liberi) {
-            comboOrario.addItem(slot);
+        for (String fascia : controller.visualizzaDisponibilita(emailMedico, data)) {
+            comboFascia.addItem(fascia);
         }
     }
 
     private void prenota() {
-        Medico medico = (Medico) comboMedico.getSelectedItem();
-        SlotOrario slot = (SlotOrario) comboOrario.getSelectedItem();
         String emailPaziente = campoEmailPaziente.getText().trim();
+        String emailMedico = emailMedicoSelezionato();
+        String fascia = (String) comboFascia.getSelectedItem();
 
-        if (emailPaziente.isEmpty() || medico == null || selettoreData.getDate() == null
-                || slot == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Compila tutti i campi e seleziona uno slot disponibile.",
+        if (emailPaziente.isEmpty() || emailMedico == null || selettoreData.getDate() == null
+                || fascia == null) {
+            JOptionPane.showMessageDialog(effettuaPrenotazionePanel,
+                    "Compila tutti i campi e seleziona una fascia oraria disponibile.",
                     "Dati mancanti", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         String data = formato.format(selettoreData.getDate());
-        String orario = slot.getOrario();
+        String nomeMedico = mediciCorrenti.get(comboMedico.getSelectedIndex())[1];
 
-        int esito = controller.effettuaPrenotazione(emailPaziente, medico.getEmail(), data, orario);
+        int esito = controller.effettuaPrenotazione(emailPaziente, emailMedico, data, fascia);
 
         switch (esito) {
             case ControllerPrenotazioni.SUCCESSO -> {
                 // Notifica di conferma tramite COTS (Adapter), invocata dalla boundary
                 SistemaNotifiche.getInstance().inviaConfermaPrenotazione(
-                        emailPaziente, medico.getNomeCompleto(), data, orario);
-                JOptionPane.showMessageDialog(this,
-                        "Prenotazione confermata per il " + data + " alle " + orario
+                        emailPaziente, nomeMedico, data, fascia);
+                JOptionPane.showMessageDialog(effettuaPrenotazionePanel,
+                        "Prenotazione confermata per il " + data + " nella fascia " + fascia
                                 + ".\nÈ stata inviata una email di conferma.",
                         "Prenotazione effettuata", JOptionPane.INFORMATION_MESSAGE);
-                aggiornaOrari();
+                aggiornaFasce();
             }
             case ControllerPrenotazioni.PAZIENTE_NON_ESISTENTE -> mostraErrore(
                     "Nessun paziente registrato con questa email.");
             case ControllerPrenotazioni.MEDICO_NON_ESISTENTE -> mostraErrore(
                     "Medico non trovato.");
-            case ControllerPrenotazioni.SLOT_NON_DISPONIBILE -> mostraErrore(
-                    "Lo slot selezionato non è più disponibile.");
+            case ControllerPrenotazioni.FASCIA_NON_DISPONIBILE -> mostraErrore(
+                    "La fascia oraria selezionata non è più disponibile.");
             default -> mostraErrore("Errore durante il salvataggio della prenotazione.");
         }
     }
 
-    private void mostraErrore(String messaggio) {
-        JOptionPane.showMessageDialog(this, messaggio, "Errore", JOptionPane.ERROR_MESSAGE);
+    /** Email del medico selezionato in combo, o {@code null} se nessuno. */
+    private String emailMedicoSelezionato() {
+        int indice = comboMedico.getSelectedIndex();
+        if (indice < 0 || indice >= mediciCorrenti.size()) {
+            return null;
+        }
+        return mediciCorrenti.get(indice)[0];
     }
 
-    /** Mostra nome+specializzazione del medico nelle combo. */
-    private static class MedicoRenderer extends DefaultListCellRenderer {
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            if (value instanceof Medico m) {
-                setText(m.getNomeCompleto() + " (" + m.getSpecializzazione().getDescrizione() + ")");
-            }
-            return this;
-        }
+    private void mostraErrore(String messaggio) {
+        JOptionPane.showMessageDialog(effettuaPrenotazionePanel, messaggio,
+                "Errore", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /** Componente a creazione manuale richiesto dal form (custom-create). */
+    private void createUIComponents() {
+        selettoreData = new JDateChooser();
+    }
+
+    /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
+    public JFrame apriFormEffettuaPrenotazione() {
+        JFrame frame = new JFrame("Effettua prenotazione");
+        frame.setContentPane(effettuaPrenotazionePanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
     }
 }

@@ -2,28 +2,34 @@ package boundary;
 
 import com.toedter.calendar.JDateChooser;
 import controller.ControllerPrenotazioni;
-import entity.RisultatoMonitoraggio;
-import entity.Specializzazione;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Boundary del caso d'uso "Monitoraggio ambulatorio" (amministratore).
  * Mostra, per un intervallo di tempo: numero di visite prenotate, numero di
  * annullamenti, distribuzione per specializzazione e occupazione delle fasce orarie.
+ *
+ * <p>La UI è definita in {@code FormMonitoraggio.form}. La boundary comunica solo
+ * con il {@link ControllerPrenotazioni} e riceve il riepilogo come mappa di
+ * stringhe: non importa mai il package {@code entity}.</p>
  */
-public class FormMonitoraggio extends JFrame {
+public class FormMonitoraggio {
+
+    private JPanel monitoraggioPanel;
+    private JDateChooser dataInizio;
+    private JDateChooser dataFine;
+    private JButton generaButton;
+    private JLabel etichettaTotali;
+    private JTable tabellaSpec;
+    private JTable tabellaFasce;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-    private final JDateChooser dataInizio = new JDateChooser();
-    private final JDateChooser dataFine = new JDateChooser();
-    private final JLabel etichettaTotali = new JLabel(" ");
 
     private final DefaultTableModel modelloSpec = new DefaultTableModel(
             new Object[]{"Specializzazione", "Prenotazioni"}, 0);
@@ -31,79 +37,64 @@ public class FormMonitoraggio extends JFrame {
             new Object[]{"Fascia oraria", "Occupazione"}, 0);
 
     public FormMonitoraggio() {
-        super("Monitoraggio ambulatorio");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(560, 480);
-        setLocationRelativeTo(null);
-        inizializza();
-    }
-
-    private void inizializza() {
-        JPanel filtri = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        filtri.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-        filtri.add(new JLabel("Dal:"));
-        filtri.add(dataInizio);
-        filtri.add(new JLabel("Al:"));
-        filtri.add(dataFine);
-        JButton bottone = new JButton("Genera report");
-        filtri.add(bottone);
-
-        JPanel centro = new JPanel();
-        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
-        etichettaTotali.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
-        etichettaTotali.setFont(etichettaTotali.getFont().deriveFont(Font.BOLD, 14f));
-        centro.add(etichettaTotali);
-
-        JTable tabellaSpec = new JTable(modelloSpec);
+        tabellaSpec.setModel(modelloSpec);
         tabellaSpec.getTableHeader().setReorderingAllowed(false);
-        JScrollPane spSpec = new JScrollPane(tabellaSpec);
-        spSpec.setBorder(BorderFactory.createTitledBorder("Prenotazioni per specializzazione"));
-
-        JTable tabellaFasce = new JTable(modelloFasce);
+        tabellaFasce.setModel(modelloFasce);
         tabellaFasce.getTableHeader().setReorderingAllowed(false);
-        JScrollPane spFasce = new JScrollPane(tabellaFasce);
-        spFasce.setBorder(BorderFactory.createTitledBorder("Occupazione fasce orarie"));
 
-        centro.add(spSpec);
-        centro.add(spFasce);
-
-        add(filtri, BorderLayout.NORTH);
-        add(centro, BorderLayout.CENTER);
-
-        bottone.addActionListener(e -> generaReport());
+        generaButton.addActionListener(e -> generaReport());
     }
 
     private void generaReport() {
         if (dataInizio.getDate() == null || dataFine.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Seleziona l'intervallo di date.",
+            JOptionPane.showMessageDialog(monitoraggioPanel, "Seleziona l'intervallo di date.",
                     "Dati mancanti", JOptionPane.WARNING_MESSAGE);
             return;
         }
         String inizio = formato.format(dataInizio.getDate());
         String fine = formato.format(dataFine.getDate());
         if (inizio.compareTo(fine) > 0) {
-            JOptionPane.showMessageDialog(this, "La data iniziale è successiva a quella finale.",
+            JOptionPane.showMessageDialog(monitoraggioPanel, "La data iniziale è successiva a quella finale.",
                     "Intervallo non valido", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        RisultatoMonitoraggio r = controller.visualizzaMonitoraggioAmbulatorio(inizio, fine);
+        Map<String, List<String[]>> riepilogo =
+                controller.visualizzaMonitoraggioAmbulatorio(inizio, fine);
 
+        String[] totali = riepilogo.get("totali").get(0);
         etichettaTotali.setText(String.format(
-                "Visite prenotate: %d    |    Annullamenti: %d    (%s → %s)",
-                r.getNumeroPrenotazioni(), r.getNumeroAnnullamenti(), inizio, fine));
+                "Visite prenotate: %s    |    Annullamenti: %s    (%s → %s)",
+                totali[0], totali[1], inizio, fine));
 
         modelloSpec.setRowCount(0);
-        for (Map.Entry<Specializzazione, Integer> e : r.getPrenotazioniPerSpecializzazione().entrySet()) {
-            modelloSpec.addRow(new Object[]{e.getKey().getDescrizione(), e.getValue()});
+        for (String[] riga : riepilogo.get("specializzazioni")) {
+            modelloSpec.addRow(riga);
         }
         if (modelloSpec.getRowCount() == 0) {
-            modelloSpec.addRow(new Object[]{"(nessuna prenotazione)", 0});
+            modelloSpec.addRow(new Object[]{"(nessuna prenotazione)", "0"});
         }
 
         modelloFasce.setRowCount(0);
-        for (Map.Entry<String, Integer> e : r.getOccupazioneFasce().entrySet()) {
-            modelloFasce.addRow(new Object[]{e.getKey(), e.getValue()});
+        for (String[] riga : riepilogo.get("fasce")) {
+            modelloFasce.addRow(riga);
         }
+    }
+
+    /** Componenti a creazione manuale richiesti dal form (custom-create). */
+    private void createUIComponents() {
+        dataInizio = new JDateChooser();
+        dataFine = new JDateChooser();
+    }
+
+    /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
+    public JFrame apriFormMonitoraggio() {
+        JFrame frame = new JFrame("Monitoraggio ambulatorio");
+        frame.setContentPane(monitoraggioPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
     }
 }

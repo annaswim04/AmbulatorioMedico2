@@ -19,7 +19,7 @@ public class RegistroPrenotazioni {
     public static final int SUCCESSO = 1;
     public static final int PAZIENTE_NON_ESISTENTE = 2;
     public static final int MEDICO_NON_ESISTENTE = 3;
-    public static final int SLOT_NON_DISPONIBILE = 4;
+    public static final int FASCIA_NON_DISPONIBILE = 4;
     public static final int ERRORE_DB = 5;
 
     private final GestorePersistenza gestore = new GestorePersistenza();
@@ -27,7 +27,7 @@ public class RegistroPrenotazioni {
 
     /**
      * Salva una nuova prenotazione dopo aver validato paziente, medico e
-     * disponibilità dello slot.
+     * disponibilità della fascia oraria.
      */
     public int salvaPrenotazione(String emailPaziente, String emailMedico,
                                  String data, String orario) {
@@ -41,9 +41,8 @@ public class RegistroPrenotazioni {
             return MEDICO_NON_ESISTENTE;
         }
 
-        if (!getOrariOccupati(medico, data).isEmpty()
-                && getOrariOccupati(medico, data).contains(orario)) {
-            return SLOT_NON_DISPONIBILE;
+        if (getFasceOccupate(medico, data).contains(orario)) {
+            return FASCIA_NON_DISPONIBILE;
         }
 
         Prenotazione prenotazione = new Prenotazione(data, orario, paziente, medico);
@@ -51,22 +50,22 @@ public class RegistroPrenotazioni {
         return salvato ? SUCCESSO : ERRORE_DB;
     }
 
-    /** Orari già occupati (stato PRENOTATO) di un medico in una data. */
-    public Set<String> getOrariOccupati(Medico medico, String data) {
+    /** Fasce orarie già occupate (stato PRENOTATO) di un medico in una data. */
+    public Set<String> getFasceOccupate(Medico medico, String data) {
         List<Prenotazione> prenotazioni = gestore.cercaPerCampi(Prenotazione.class,
                 Map.of("medico", medico, "data", data));
-        Set<String> occupati = new HashSet<>();
+        Set<String> occupate = new HashSet<>();
         for (Prenotazione p : prenotazioni) {
             if (p.getStatoVisita() == StatoVisita.PRENOTATO) {
-                occupati.add(p.getOrario());
+                occupate.add(p.getOrario());
             }
         }
-        return occupati;
+        return occupate;
     }
 
-    /** Calcola la disponibilità di un medico in una data (pattern Composite). */
+    /** Calcola la disponibilità di un medico in una data (fasce libere). */
     public DisponibilitaMedico getDisponibilita(Medico medico, String data) {
-        return new DisponibilitaMedico(medico, data, getOrariOccupati(medico, data));
+        return new DisponibilitaMedico(medico, data, getFasceOccupate(medico, data));
     }
 
     /** Tutte le prenotazioni di un medico (UC elenco prenotazioni medico). */

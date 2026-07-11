@@ -2,112 +2,101 @@ package boundary;
 
 import com.toedter.calendar.JDateChooser;
 import controller.ControllerPrenotazioni;
-import entity.DisponibilitaMedico;
-import entity.Medico;
-import entity.SlotOrario;
-import entity.Specializzazione;
 
 import javax.swing.*;
-import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Boundary del caso d'uso "Visualizza disponibilità".
  * L'utente sceglie una specializzazione, un medico associato e una data;
- * il sistema mostra gli slot orari liberi di quel medico.
+ * il sistema mostra le fasce orarie libere di quel medico.
+ *
+ * <p>La UI è definita in {@code FormVisualizzaDisponibilita.form}. La boundary
+ * comunica solo con il {@link ControllerPrenotazioni} e riceve dati come
+ * stringhe: non importa mai il package {@code entity}.</p>
  */
-public class FormVisualizzaDisponibilita extends JFrame {
+public class FormVisualizzaDisponibilita {
+
+    private JPanel visualizzaDisponibilitaPanel;
+    private JComboBox<String> comboSpecializzazione;
+    private JComboBox<String> comboMedico;
+    private JDateChooser selettoreData;
+    private JButton mostraButton;
+    private JList<String> listaFasce;
+    private JLabel etichettaEsito;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+    private final DefaultListModel<String> modelloFasce = new DefaultListModel<>();
 
-    private final JComboBox<Specializzazione> comboSpecializzazione = new JComboBox<>();
-    private final JComboBox<Medico> comboMedico = new JComboBox<>();
-    private final JDateChooser selettoreData = new JDateChooser();
-    private final DefaultListModel<String> modelloSlot = new DefaultListModel<>();
-    private final JList<String> listaSlot = new JList<>(modelloSlot);
-    private final JLabel etichettaEsito = new JLabel(" ");
+    /** Medici correnti della specializzazione selezionata: coppie {email, nome}. */
+    private List<String[]> mediciCorrenti = new ArrayList<>();
 
     public FormVisualizzaDisponibilita() {
-        super("Visualizza disponibilità");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(460, 420);
-        setLocationRelativeTo(null);
-        inizializza();
-    }
+        listaFasce.setModel(modelloFasce);
 
-    private void inizializza() {
-        JPanel filtri = new JPanel(new GridLayout(4, 2, 6, 6));
-        filtri.setBorder(BorderFactory.createEmptyBorder(15, 15, 10, 15));
-        filtri.add(new JLabel("Specializzazione:"));
-        filtri.add(comboSpecializzazione);
-        filtri.add(new JLabel("Medico:"));
-        filtri.add(comboMedico);
-        filtri.add(new JLabel("Data:"));
-        filtri.add(selettoreData);
-        JButton bottoneCerca = new JButton("Mostra disponibilità");
-        filtri.add(new JLabel());
-        filtri.add(bottoneCerca);
-
-        listaSlot.setBorder(BorderFactory.createTitledBorder("Slot liberi"));
-
-        add(filtri, BorderLayout.NORTH);
-        add(new JScrollPane(listaSlot), BorderLayout.CENTER);
-        add(etichettaEsito, BorderLayout.SOUTH);
-
-        for (Specializzazione s : controller.getSpecializzazioni()) {
-            comboSpecializzazione.addItem(s);
+        for (String descrizione : controller.getSpecializzazioni()) {
+            comboSpecializzazione.addItem(descrizione);
         }
         comboSpecializzazione.setSelectedIndex(-1);
-        comboMedico.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> l, Object v, int i,
-                                                          boolean sel, boolean foc) {
-                super.getListCellRendererComponent(l, v, i, sel, foc);
-                if (v instanceof Medico m) {
-                    setText(m.getNomeCompleto());
-                }
-                return this;
-            }
-        });
 
         comboSpecializzazione.addActionListener(e -> aggiornaMedici());
-        bottoneCerca.addActionListener(e -> mostraDisponibilita());
+        mostraButton.addActionListener(e -> mostraDisponibilita());
     }
 
     private void aggiornaMedici() {
         comboMedico.removeAllItems();
-        Specializzazione s = (Specializzazione) comboSpecializzazione.getSelectedItem();
-        if (s == null) {
+        String specializzazione = (String) comboSpecializzazione.getSelectedItem();
+        if (specializzazione == null) {
+            mediciCorrenti = new ArrayList<>();
             return;
         }
-        for (Medico m : controller.getMedici(s)) {
-            comboMedico.addItem(m);
+        mediciCorrenti = controller.getMedici(specializzazione);
+        for (String[] medico : mediciCorrenti) {
+            comboMedico.addItem(medico[1]);
         }
     }
 
     private void mostraDisponibilita() {
-        modelloSlot.clear();
+        modelloFasce.clear();
         etichettaEsito.setText(" ");
 
-        Medico medico = (Medico) comboMedico.getSelectedItem();
-        if (medico == null || selettoreData.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Seleziona medico e data.",
+        int indice = comboMedico.getSelectedIndex();
+        if (indice < 0 || indice >= mediciCorrenti.size() || selettoreData.getDate() == null) {
+            JOptionPane.showMessageDialog(visualizzaDisponibilitaPanel, "Seleziona medico e data.",
                     "Dati mancanti", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+        String emailMedico = mediciCorrenti.get(indice)[0];
         String data = formato.format(selettoreData.getDate());
-        DisponibilitaMedico disp = controller.visualizzaDisponibilita(medico.getEmail(), data);
+        String[] fasce = controller.visualizzaDisponibilita(emailMedico, data);
 
-        if (disp == null || !disp.isDisponibile()) {
-            etichettaEsito.setText("  Nessuno slot disponibile per il " + data + ".");
+        if (fasce.length == 0) {
+            etichettaEsito.setText("  Nessuna fascia disponibile per il " + data + ".");
             return;
         }
-        for (SlotOrario slot : disp.getFasceOrarieDisponibili()) {
-            modelloSlot.addElement(slot.getOrario());
+        for (String fascia : fasce) {
+            modelloFasce.addElement(fascia);
         }
-        etichettaEsito.setText("  " + disp.getFasceOrarieDisponibili().size()
-                + " slot liberi il " + data + ".");
+        etichettaEsito.setText("  " + fasce.length + " fasce libere il " + data + ".");
+    }
+
+    /** Componente a creazione manuale richiesto dal form (custom-create). */
+    private void createUIComponents() {
+        selettoreData = new JDateChooser();
+    }
+
+    /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
+    public JFrame apriFormVisualizzaDisponibilita() {
+        JFrame frame = new JFrame("Visualizza disponibilità");
+        frame.setContentPane(visualizzaDisponibilitaPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
     }
 }

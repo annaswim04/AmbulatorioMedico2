@@ -6,26 +6,27 @@ import java.util.Set;
 
 /**
  * Disponibilità di un medico in una data. Oggetto di dominio (non persistito):
- * si calcola a partire dal template orario standard della {@link Giornata}
- * (pattern Composite) sottraendo gli slot già occupati dalle prenotazioni.
+ * si ottiene dall'elenco delle fasce orarie della giornata
+ * ({@link FasciaOraria#valori()}) escludendo quelle già occupate da una
+ * prenotazione.
  */
 public class DisponibilitaMedico {
 
     private final Medico medico;
     private final String data;
-    private final List<SlotOrario> slotDisponibili = new ArrayList<>();
+    private final List<FasciaOraria> fasceDisponibili = new ArrayList<>();
 
     /**
-     * @param medico          medico di riferimento
-     * @param data            data (yyyy-MM-dd)
-     * @param orariOccupati   orari già prenotati per quel medico in quella data
+     * @param medico         medico di riferimento
+     * @param data           data (yyyy-MM-dd)
+     * @param fasceOccupate  orari delle fasce già prenotate per quel medico in quella data
      */
-    public DisponibilitaMedico(Medico medico, String data, Set<String> orariOccupati) {
+    public DisponibilitaMedico(Medico medico, String data, Set<String> fasceOccupate) {
         this.medico = medico;
         this.data = data;
-        for (SlotOrario slot : new Giornata().getSlot()) {
-            if (!orariOccupati.contains(slot.getOrario())) {
-                slotDisponibili.add(slot);
+        for (FasciaOraria fascia : FasciaOraria.valori()) {
+            if (!fasceOccupate.contains(fascia.getNome())) {
+                fasceDisponibili.add(fascia);
             }
         }
     }
@@ -38,12 +39,12 @@ public class DisponibilitaMedico {
         return data;
     }
 
-    /** Slot orari liberi per la prenotazione (operazione getFasceOrarieDisponibili). */
-    public List<SlotOrario> getFasceOrarieDisponibili() {
-        return slotDisponibili;
+    /** Fasce orarie libere per la prenotazione (operazione getFasceOrarieDisponibili). */
+    public List<FasciaOraria> getFasceOrarieDisponibili() {
+        return fasceDisponibili;
     }
 
     public boolean isDisponibile() {
-        return !slotDisponibili.isEmpty();
+        return !fasceDisponibili.isEmpty();
     }
 }

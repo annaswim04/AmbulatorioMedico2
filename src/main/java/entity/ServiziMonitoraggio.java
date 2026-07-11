@@ -1,14 +1,12 @@
 package entity;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Servizi di monitoraggio dell'andamento dell'ambulatorio (per l'amministratore).
  * Elabora le prenotazioni in un intervallo di tempo producendo i conteggi
  * richiesti: totale prenotazioni, annullamenti, distribuzione per specializzazione
- * e occupazione delle fasce orarie (sfruttando il Composite {@link Giornata}).
+ * e occupazione delle {@link FasciaOraria fasce orarie}.
  */
 public class ServiziMonitoraggio {
 
@@ -34,18 +32,13 @@ public class ServiziMonitoraggio {
             }
         }
 
-        // Occupazione delle fasce orarie principali (Mattina / Primo / Tardo pomeriggio)
-        Giornata giornata = new Giornata();
-        for (PeriodoDiGiornata periodo : giornata.getPeriodi()) {
-            Set<String> orariPeriodo = new HashSet<>();
-            for (SlotOrario slot : periodo.getSlot()) {
-                orariPeriodo.add(slot.getOrario());
-            }
+        // Occupazione delle fasce orarie (Mattina / Primo pomeriggio / Tardo pomeriggio)
+        for (FasciaOraria fascia : FasciaOraria.valori()) {
             int occupati = (int) prenotazioni.stream()
                     .filter(p -> p.getStatoVisita() != StatoVisita.ANNULLATO)
-                    .filter(p -> orariPeriodo.contains(p.getOrario()))
+                    .filter(p -> fascia.getNome().equals(p.getOrario()))
                     .count();
-            risultato.getOccupazioneFasce().put(periodo.getNome(), occupati);
+            risultato.getOccupazioneFasce().put(fascia.getNome(), occupati);
         }
 
         return risultato;

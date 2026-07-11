@@ -3,29 +3,47 @@ package entity;
 import java.util.List;
 
 /**
- * Pattern: COMPOSITE (component). Rappresenta una fascia oraria della giornata.
+ * Fascia oraria prenotabile dal paziente.
  *
- * Una fascia può essere:
- * <ul>
- *   <li>una foglia: {@link SlotOrario} (singolo orario prenotabile, es. "09:00");</li>
- *   <li>un composite: {@link PeriodoDiGiornata} e le sue sottoclassi
- *       {@link Mattina}, {@link PrimoPomeriggio}, {@link TardoPomeriggio},
- *       che raggruppano più slot; oppure {@link Giornata}, che raggruppa i periodi.</li>
- * </ul>
+ * <p>Modellazione (UML): classe base astratta da cui derivano, per
+ * <b>generalizzazione</b>, le tre fasce in cui è suddivisa la giornata
+ * dell'ambulatorio: {@link Mattina}, {@link PrimoPomeriggio} e
+ * {@link TardoPomeriggio}. La fascia non ha attributi: la sua identità coincide
+ * con il tipo concreto.</p>
  *
- * Il client tratta in modo uniforme foglie e composite tramite {@link #getSlot()}
- * e {@link #contaSlot()}.
+ * <p>La fascia è l'unità prenotabile: per un dato medico e una data, ciascuna
+ * fascia può essere libera oppure occupata da una prenotazione.</p>
  */
 public abstract class FasciaOraria {
 
-    /** Nome descrittivo della fascia (es. "Mattina", "09:00"). */
+    /** Nome della fascia (es. "Mattina"); usato per la visualizzazione e come valore persistito. */
     public abstract String getNome();
 
-    /** Elenco ricorsivo di tutti gli slot foglia contenuti. */
-    public abstract List<SlotOrario> getSlot();
+    /** Le tre fasce orarie della giornata, nell'ordine in cui si succedono. */
+    public static List<FasciaOraria> valori() {
+        return List.of(new Mattina(), new PrimoPomeriggio(), new TardoPomeriggio());
+    }
 
-    /** Numero di slot prenotabili nella fascia. */
-    public int contaSlot() {
-        return getSlot().size();
+    /** Ricostruisce la fascia a partire dal suo nome, o {@code null} se sconosciuto. */
+    public static FasciaOraria da(String nome) {
+        return valori().stream()
+                .filter(f -> f.getNome().equals(nome))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o != null && getClass() == o.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getNome();
     }
 }

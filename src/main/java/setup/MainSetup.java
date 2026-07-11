@@ -25,7 +25,7 @@ public class MainSetup {
         DatiTest.popola(gestore);
 
         // Avvia la GUI sul thread di Swing
-        SwingUtilities.invokeLater(() -> new FinestraPrincipale().setVisible(true));
+        SwingUtilities.invokeLater(() -> new FinestraPrincipale().apriFinestraPrincipale());
 
         System.out.println("Applicazione avviata.");
     }
