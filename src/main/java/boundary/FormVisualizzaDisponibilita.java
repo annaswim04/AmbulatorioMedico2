@@ -20,12 +20,12 @@ import java.util.List;
 public class FormVisualizzaDisponibilita {
 
     private JPanel visualizzaDisponibilitaPanel;
-    private JComboBox<String> comboSpecializzazione;
-    private JComboBox<String> comboMedico;
+    private JComboBox comboMedico;
     private JDateChooser selettoreData;
     private JButton mostraButton;
-    private JList<String> listaFasce;
-    private JLabel etichettaEsito;
+    private JList listaFasce;
+    private JComboBox comboSpecializzazione;
+    private JLabel labelEsito;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -61,7 +61,7 @@ public class FormVisualizzaDisponibilita {
 
     private void mostraDisponibilita() {
         modelloFasce.clear();
-        etichettaEsito.setText(" ");
+        labelEsito.setText(" ");
 
         int indice = comboMedico.getSelectedIndex();
         if (indice < 0 || indice >= mediciCorrenti.size() || selettoreData.getDate() == null) {
@@ -75,13 +75,13 @@ public class FormVisualizzaDisponibilita {
         String[] fasce = controller.visualizzaDisponibilita(emailMedico, data);
 
         if (fasce.length == 0) {
-            etichettaEsito.setText("  Nessuna fascia disponibile per il " + data + ".");
+            labelEsito.setText("  Nessuna fascia disponibile per il " + data + ".");
             return;
         }
         for (String fascia : fasce) {
             modelloFasce.addElement(fascia);
         }
-        etichettaEsito.setText("  " + fasce.length + " fasce libere il " + data + ".");
+        labelEsito.setText("  " + fasce.length + " fasce libere il " + data + ".");
     }
 
     /** Componente a creazione manuale richiesto dal form (custom-create). */

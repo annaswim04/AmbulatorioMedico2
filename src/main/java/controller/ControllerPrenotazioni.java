@@ -19,8 +19,7 @@ import java.util.Map;
 /**
  * Controller di facciata per i casi d'uso legati alle prenotazioni.
  *
- * <p>Pattern: SINGLETON + FACADE. È l'unico punto di contatto della boundary con
- * la logica applicativa: orchestra i {@code Registro*} del livello entity e non
+ * <p>Pattern: FACADE. : orchestra i {@code Registro*} del livello entity e non
  * contiene né codice Swing né accessi diretti al DB.</p>
  *
  * <p>Per rispettare il flusso BCED, i metodi <b>non espongono oggetti di dominio</b>:
@@ -36,7 +35,7 @@ public class ControllerPrenotazioni {
     public static final int PAZIENTE_NON_ESISTENTE = RegistroPrenotazioni.PAZIENTE_NON_ESISTENTE;
     public static final int MEDICO_NON_ESISTENTE = RegistroPrenotazioni.MEDICO_NON_ESISTENTE;
     public static final int FASCIA_NON_DISPONIBILE = RegistroPrenotazioni.FASCIA_NON_DISPONIBILE;
-    public static final int ERRORE_DB = RegistroPrenotazioni.ERRORE_DB;
+
 
     private static ControllerPrenotazioni instance;
 
