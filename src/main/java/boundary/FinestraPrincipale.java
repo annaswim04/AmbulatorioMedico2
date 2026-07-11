@@ -61,11 +61,23 @@ public class FinestraPrincipale {
     /** Crea e mostra la finestra principale. Restituisce il {@link JFrame} creato. */
     public JFrame apriFinestraPrincipale() {
         JFrame frame = new JFrame("Ambulatorio Medico");
+
         frame.setContentPane(finestraPrincipalePanel);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         frame.pack();
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         return frame;
     }
+
+    public static void main(String[] args) {
+
+        FinestraPrincipale finestraPrincipale = new FinestraPrincipale();
+
+        finestraPrincipale.apriFinestraPrincipale();
+    }
+
 }
