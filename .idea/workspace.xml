@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="formMonitoraggio sistemato per davvero">
+    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="form pagina principale ^_^">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,24 +38,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MainSetup.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FinestraPrincipale.executor": "Run",
+    "Application.MainSetup.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="" />
@@ -66,7 +67,8 @@
       <workItem from="1783766729278" duration="1611000" />
       <workItem from="1783772974717" duration="601000" />
       <workItem from="1783774982007" duration="5274000" />
-      <workItem from="1783780689792" duration="930000" />
+      <workItem from="1783780689792" duration="1225000" />
+      <workItem from="1783789640953" duration="1283000" />
     </task>
     <task id="LOCAL-00001" summary="formMonitoraggio sistemato">
       <option name="closed" value="true" />
@@ -84,7 +86,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783780151222</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="form pagina principale ^_^">
+      <option name="closed" value="true" />
+      <created>1783781878321</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1783781878321</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -104,6 +114,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="formMonitoraggio sistemato" />
     <MESSAGE value="formMonitoraggio sistemato per davvero" />
-    <option name="LAST_COMMIT_MESSAGE" value="formMonitoraggio sistemato per davvero" />
+    <MESSAGE value="form pagina principale ^_^" />
+    <option name="LAST_COMMIT_MESSAGE" value="form pagina principale ^_^" />
   </component>
 </project>
