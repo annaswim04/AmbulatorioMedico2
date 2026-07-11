@@ -19,6 +19,7 @@ public class FormElencoPrenotazioniMedico {
     private JPanel elencoPrenotazioniPanel;
     private JTextField campoEmailMedico;
     private JButton mostraButton;
+    private JScrollPane ScrollPane;
     private JTable tabella;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
