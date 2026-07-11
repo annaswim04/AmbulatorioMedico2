@@ -3,6 +3,7 @@ package controller;
 import entity.DisponibilitaMedico;
 import entity.FasciaOraria;
 import entity.Medico;
+import entity.Paziente;
 import entity.Prenotazione;
 import entity.RegistroPrenotazioni;
 import entity.RegistroSpecializzazioni;
@@ -109,7 +110,9 @@ public class ControllerPrenotazioni {
 
     /**
      * Prenotazioni di un medico. Ogni elemento è la riga
-     * {@code {data, fascia, paziente, recapito, stato}}.
+     * {@code {data, fascia, paziente, stato, emailPaziente}}.
+     * L'ultimo campo (email del paziente) è ad uso interno della boundary per
+     * richiamare {@link #getDatiPaziente(String)}: non va mostrato in tabella.
      */
     public List<String[]> visualizzaElencoPrenotazioni(String emailMedico) {
         List<String[]> righe = new ArrayList<>();
@@ -119,12 +122,28 @@ public class ControllerPrenotazioni {
         }
         for (Prenotazione p : registroPrenotazioni.getPrenotazioniPerMedico(medico)) {
             String paziente = p.getPaziente() != null ? p.getPaziente().getNomeCompleto() : "-";
-            String recapito = p.getPaziente() != null ? p.getPaziente().getRecapitoTelefonico() : "-";
+            String emailPaziente = p.getPaziente() != null ? p.getPaziente().getEmail() : "";
             righe.add(new String[]{
-                    p.getData(), p.getOrario(), paziente, recapito, p.getStato().descrizione()
+                    p.getData(), p.getOrario(), paziente, p.getStato().descrizione(), emailPaziente
             });
         }
         return righe;
+    }
+
+    // --- UC: Visualizza dati paziente (dal dettaglio elenco prenotazioni) ---
+
+    /**
+     * Dati anagrafici di un paziente, come riga {@code {email, nome, cognome, recapito}}.
+     * Restituisce {@code null} se il paziente non esiste.
+     */
+    public String[] getDatiPaziente(String emailPaziente) {
+        Paziente paziente = registroUtenti.getPaziente(emailPaziente);
+        if (paziente == null) {
+            return null;
+        }
+        return new String[]{
+                paziente.getEmail(), paziente.getNome(), paziente.getCognome(), paziente.getRecapitoTelefonico()
+        };
     }
 
     // --- UC: Monitoraggio ambulatorio ---

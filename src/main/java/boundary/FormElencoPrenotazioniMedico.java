@@ -4,11 +4,13 @@ import controller.ControllerPrenotazioni;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Boundary del caso d'uso "Visualizza elenco prenotazioni (medico)".
- * Il medico consulta l'elenco delle visite prenotate presso il proprio ambulatorio.
+ * Il medico consulta l'elenco delle visite prenotate presso il proprio ambulatorio
+ * e, selezionando una riga, visualizza i dati anagrafici del paziente corrispondente.
  *
  * <p>La UI è definita in {@code FormElencoPrenotazioniMedico.form}. La boundary
  * comunica solo con il {@link ControllerPrenotazioni} e riceve le righe come
@@ -24,21 +26,30 @@ public class FormElencoPrenotazioniMedico {
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final DefaultTableModel modello = new DefaultTableModel(
-            new Object[]{"Data", "Fascia oraria", "Paziente", "Recapito", "Stato"}, 0) {
+            new Object[]{"Data", "Fascia oraria", "Paziente", "Stato"}, 0) {
         @Override
         public boolean isCellEditable(int r, int c) {
             return false;
         }
     };
 
+    /** Righe complete restituite dal controller (con email paziente), parallele al modello di tabella. */
+    private final List<String[]> prenotazioniCorrenti = new ArrayList<>();
+
     public FormElencoPrenotazioniMedico() {
         tabella.setModel(modello);
         tabella.getTableHeader().setReorderingAllowed(false);
         mostraButton.addActionListener(e -> caricaPrenotazioni());
+        tabella.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                mostraDatiPaziente();
+            }
+        });
     }
 
     private void caricaPrenotazioni() {
         modello.setRowCount(0);
+        prenotazioniCorrenti.clear();
         String email = campoEmailMedico.getText().trim();
         if (email.isEmpty()) {
             JOptionPane.showMessageDialog(elencoPrenotazioniPanel, "Inserisci l'email del medico.",
@@ -54,8 +65,33 @@ public class FormElencoPrenotazioniMedico {
             return;
         }
         for (String[] riga : prenotazioni) {
-            modello.addRow(riga);
+            prenotazioniCorrenti.add(riga);
+            modello.addRow(new Object[]{riga[0], riga[1], riga[2], riga[3]});
         }
+    }
+
+    /** Mostra i dati del paziente associato alla riga selezionata in tabella. */
+    private void mostraDatiPaziente() {
+        int riga = tabella.getSelectedRow();
+        if (riga < 0 || riga >= prenotazioniCorrenti.size()) {
+            return;
+        }
+        String emailPaziente = prenotazioniCorrenti.get(riga)[4];
+        if (emailPaziente.isEmpty()) {
+            return;
+        }
+        String[] dati = controller.getDatiPaziente(emailPaziente);
+        if (dati == null) {
+            JOptionPane.showMessageDialog(elencoPrenotazioniPanel,
+                    "Paziente non trovato.", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String messaggio = "Email: " + dati[0] + "\n"
+                + "Nome: " + dati[1] + "\n"
+                + "Cognome: " + dati[2] + "\n"
+                + "Recapito telefonico: " + dati[3];
+        JOptionPane.showMessageDialog(elencoPrenotazioniPanel, messaggio,
+                "Dati paziente", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
