@@ -2,6 +2,7 @@ package entity;
 
 import database.GestorePersistenza;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,23 @@ public class RegistroPrenotazioni {
 
     /** Tutte le prenotazioni di un medico (UC elenco prenotazioni medico). */
     public List<Prenotazione> getPrenotazioniPerMedico(Medico medico) {
-        return gestore.cercaPerCampi(Prenotazione.class, Map.of("medico", medico));
+        return getPrenotazioniPerMedico(medico, null, null);
+    }
+
+    /**
+     * Prenotazioni di un medico, filtrabili per data e/o fascia oraria.
+     * Filtri {@code null} o vuoti vengono ignorati.
+     */
+    public List<Prenotazione> getPrenotazioniPerMedico(Medico medico, String data, String fascia) {
+        Map<String, Object> campi = new HashMap<>();
+        campi.put("medico", medico);
+        if (data != null && !data.isEmpty()) {
+            campi.put("data", data);
+        }
+        if (fascia != null && !fascia.isEmpty()) {
+            campi.put("orario", fascia);
+        }
+        return gestore.cercaPerCampi(Prenotazione.class, campi);
     }
 
     /** Elenco completo delle prenotazioni presenti nel sistema. */

@@ -21,6 +21,8 @@ public class FormElencoPrenotazioniMedico {
     private JPanel elencoPrenotazioniPanel;
     private JTextField campoEmailMedico;
     private JButton mostraButton;
+    private JTextField campoFiltroData;
+    private JComboBox<String> comboFiltroFascia;
     // Bind del .form: avvolge "tabella" e abilita lo scroll con molte prenotazioni.
     // Non richiamato direttamente in codice: il collegamento avviene per riflessione dal form loader.
     @SuppressWarnings("unused")
@@ -42,6 +44,13 @@ public class FormElencoPrenotazioniMedico {
     public FormElencoPrenotazioniMedico() {
         tabella.setModel(modello);
         tabella.getTableHeader().setReorderingAllowed(false);
+
+        comboFiltroFascia.addItem("Tutte");
+        for (String fascia : controller.getFasceOrarie()) {
+            comboFiltroFascia.addItem(fascia);
+        }
+        comboFiltroFascia.setSelectedIndex(0);
+
         mostraButton.addActionListener(_ -> caricaPrenotazioni());
         tabella.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -60,7 +69,13 @@ public class FormElencoPrenotazioniMedico {
             return;
         }
 
-        List<String[]> prenotazioni = controller.visualizzaElencoPrenotazioni(email);
+        String filtroData = campoFiltroData.getText().trim();
+        String filtroFascia = comboFiltroFascia.getSelectedIndex() > 0
+                ? (String) comboFiltroFascia.getSelectedItem()
+                : null;
+
+        List<String[]> prenotazioni = controller.visualizzaElencoPrenotazioni(
+                email, filtroData.isEmpty() ? null : filtroData, filtroFascia);
         if (prenotazioni.isEmpty()) {
             JOptionPane.showMessageDialog(elencoPrenotazioniPanel,
                     "Nessuna prenotazione trovata per questo medico.",

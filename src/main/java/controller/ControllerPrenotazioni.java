@@ -115,12 +115,21 @@ public class ControllerPrenotazioni {
      * richiamare {@link #getDatiPaziente(String)}: non va mostrato in tabella.
      */
     public List<String[]> visualizzaElencoPrenotazioni(String emailMedico) {
+        return visualizzaElencoPrenotazioni(emailMedico, null, null);
+    }
+
+    /**
+     * Come {@link #visualizzaElencoPrenotazioni(String)}, filtrabile per data
+     * (formato {@code yyyy-MM-dd}) e/o fascia oraria. Filtri {@code null} o
+     * vuoti sono ignorati.
+     */
+    public List<String[]> visualizzaElencoPrenotazioni(String emailMedico, String filtroData, String filtroFascia) {
         List<String[]> righe = new ArrayList<>();
         Medico medico = registroUtenti.getMedico(emailMedico);
         if (medico == null) {
             return righe;
         }
-        for (Prenotazione p : registroPrenotazioni.getPrenotazioniPerMedico(medico)) {
+        for (Prenotazione p : registroPrenotazioni.getPrenotazioniPerMedico(medico, filtroData, filtroFascia)) {
             String paziente = p.getPaziente() != null ? p.getPaziente().getNomeCompleto() : "-";
             String emailPaziente = p.getPaziente() != null ? p.getPaziente().getEmail() : "";
             righe.add(new String[]{
@@ -128,6 +137,16 @@ public class ControllerPrenotazioni {
             });
         }
         return righe;
+    }
+
+    /** Nomi delle fasce orarie della giornata, per popolare un filtro. */
+    public String[] getFasceOrarie() {
+        List<FasciaOraria> fasce = FasciaOraria.valori();
+        String[] nomi = new String[fasce.size()];
+        for (int i = 0; i < fasce.size(); i++) {
+            nomi[i] = fasce.get(i).getNome();
+        }
+        return nomi;
     }
 
     // --- UC: Visualizza dati paziente (dal dettaglio elenco prenotazioni) ---
