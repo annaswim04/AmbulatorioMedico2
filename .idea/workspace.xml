@@ -4,28 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="form pagina principale ^_^">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,20 +40,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.FinestraPrincipale.executor": "Run",
     "Application.MainSetup.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "245",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "project.propGUI",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -77,22 +64,57 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1783766725854</updated>
-      <workItem from="1783766729278" duration="1503000" />
+      <workItem from="1783766729278" duration="1611000" />
+      <workItem from="1783772974717" duration="601000" />
+      <workItem from="1783774982007" duration="5274000" />
+      <workItem from="1783780689792" duration="1225000" />
+      <workItem from="1783789640953" duration="1283000" />
     </task>
+    <task id="LOCAL-00001" summary="formMonitoraggio sistemato">
+      <option name="closed" value="true" />
+      <created>1783768292627</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1783768292627</updated>
+    </task>
+    <task id="LOCAL-00002" summary="formMonitoraggio sistemato per davvero">
+      <option name="closed" value="true" />
+      <created>1783780151222</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1783780151222</updated>
+    </task>
+    <task id="LOCAL-00003" summary="form pagina principale ^_^">
+      <option name="closed" value="true" />
+      <created>1783781878321</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1783781878321</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="formMonitoraggio sistemato" />
+    <MESSAGE value="formMonitoraggio sistemato per davvero" />
+    <MESSAGE value="form pagina principale ^_^" />
+    <option name="LAST_COMMIT_MESSAGE" value="form pagina principale ^_^" />
   </component>
 </project>
