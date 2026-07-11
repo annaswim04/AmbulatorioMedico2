@@ -21,6 +21,9 @@ public class FormElencoPrenotazioniMedico {
     private JPanel elencoPrenotazioniPanel;
     private JTextField campoEmailMedico;
     private JButton mostraButton;
+    // Bind del .form: avvolge "tabella" e abilita lo scroll con molte prenotazioni.
+    // Non richiamato direttamente in codice: il collegamento avviene per riflessione dal form loader.
+    @SuppressWarnings("unused")
     private JScrollPane ScrollPane;
     private JTable tabella;
 
@@ -39,7 +42,7 @@ public class FormElencoPrenotazioniMedico {
     public FormElencoPrenotazioniMedico() {
         tabella.setModel(modello);
         tabella.getTableHeader().setReorderingAllowed(false);
-        mostraButton.addActionListener(e -> caricaPrenotazioni());
+        mostraButton.addActionListener(_ -> caricaPrenotazioni());
         tabella.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 mostraDatiPaziente();
