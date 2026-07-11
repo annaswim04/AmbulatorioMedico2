@@ -1,56 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="boundary.FinestraPrincipale">
-  <grid id="root" binding="finestraPrincipalePanel" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="20" left="25" bottom="20" right="25"/>
+  <grid id="27dc6" binding="finestraPrincipalePanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="20" left="20" bottom="20" right="20"/>
     <constraints>
-      <xy x="20" y="20" width="420" height="300"/>
+      <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties>
-      <preferredSize width="420" height="300"/>
-    </properties>
+    <properties/>
     <border type="none"/>
     <children>
-      <component id="titolo" class="javax.swing.JLabel">
+      <grid id="3ab1c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties>
-          <font size="16" style="1"/>
-          <text value="Gestione Ambulatorio Medico"/>
-        </properties>
-      </component>
-      <component id="btnPren" class="javax.swing.JButton" binding="effettuaPrenotazioneButton" default-binding="true">
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="adce0" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Gestione Ambulatorio Medico"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="81b8f" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties>
-          <text value="Effettua prenotazione (paziente)"/>
-        </properties>
-      </component>
-      <component id="btnDisp" class="javax.swing.JButton" binding="visualizzaDisponibilitaButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Visualizza disponibilità"/>
-        </properties>
-      </component>
-      <component id="btnElenco" class="javax.swing.JButton" binding="elencoPrenotazioniButton" default-binding="true">
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Elenco prenotazioni (medico)"/>
-        </properties>
-      </component>
-      <component id="btnMon" class="javax.swing.JButton" binding="monitoraggioButton" default-binding="true">
-        <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Monitoraggio ambulatorio (amministratore)"/>
-        </properties>
-      </component>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="1a154" class="javax.swing.JButton" binding="visualizzaDisponibilitaButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="visualizza disponibilità"/>
+            </properties>
+          </component>
+          <component id="ecaf4" class="javax.swing.JButton" binding="monitoraggioButton">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="monitoraggio ambulatorio"/>
+            </properties>
+          </component>
+          <component id="88136" class="javax.swing.JButton" binding="effettuaPrenotazioneButton">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="effettua prenotazione"/>
+            </properties>
+          </component>
+          <component id="850d2" class="javax.swing.JButton" binding="elencoPrenotazioniButton">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="elenco prenotazioni"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>
