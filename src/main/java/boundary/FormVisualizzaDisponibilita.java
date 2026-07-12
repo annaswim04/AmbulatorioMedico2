@@ -1,9 +1,12 @@
 package boundary;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.toedter.calendar.JDateChooser;
 import controller.ControllerPrenotazioni;
 
 import javax.swing.*;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +29,19 @@ public class FormVisualizzaDisponibilita {
     private JList listaFasce;
     private JComboBox comboSpecializzazione;
     private JLabel labelEsito;
+    private JButton prenotaButton;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
     private final DefaultListModel<String> modelloFasce = new DefaultListModel<>();
 
-    /** Medici correnti della specializzazione selezionata: coppie {email, nome}. */
+    /**
+     * Medici correnti della specializzazione selezionata: coppie {email, nome}.
+     */
     private List<String[]> mediciCorrenti = new ArrayList<>();
 
     public FormVisualizzaDisponibilita() {
+
         listaFasce.setModel(modelloFasce);
 
         for (String descrizione : controller.getSpecializzazioni()) {
@@ -44,6 +51,8 @@ public class FormVisualizzaDisponibilita {
 
         comboSpecializzazione.addActionListener(e -> aggiornaMedici());
         mostraButton.addActionListener(e -> mostraDisponibilita());
+        prenotaButton.addActionListener(
+                e -> new FormEffettuaPrenotazione().apriFormEffettuaPrenotazione());
     }
 
     private void aggiornaMedici() {
@@ -84,12 +93,16 @@ public class FormVisualizzaDisponibilita {
         labelEsito.setText("  " + fasce.length + " fasce libere il " + data + ".");
     }
 
-    /** Componente a creazione manuale richiesto dal form (custom-create). */
+    /**
+     * Componente a creazione manuale richiesto dal form (custom-create).
+     */
     private void createUIComponents() {
         selettoreData = new JDateChooser();
     }
 
-    /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
+    /**
+     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     */
     public JFrame apriFormVisualizzaDisponibilita() {
         JFrame frame = new JFrame("Visualizza disponibilità");
         frame.setContentPane(visualizzaDisponibilitaPanel);
@@ -98,5 +111,13 @@ public class FormVisualizzaDisponibilita {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         return frame;
+    }
+
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return visualizzaDisponibilitaPanel;
     }
 }

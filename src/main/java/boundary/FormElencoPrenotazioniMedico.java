@@ -1,9 +1,12 @@
 package boundary;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import controller.ControllerPrenotazioni;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +41,9 @@ public class FormElencoPrenotazioniMedico {
         }
     };
 
-    /** Righe complete restituite dal controller (con email paziente), parallele al modello di tabella. */
+    /**
+     * Righe complete restituite dal controller (con email paziente), parallele al modello di tabella.
+     */
     private final List<String[]> prenotazioniCorrenti = new ArrayList<>();
 
     public FormElencoPrenotazioniMedico() {
@@ -88,7 +93,9 @@ public class FormElencoPrenotazioniMedico {
         }
     }
 
-    /** Mostra i dati del paziente associato alla riga selezionata in tabella. */
+    /**
+     * Mostra i dati del paziente associato alla riga selezionata in tabella.
+     */
     private void mostraDatiPaziente() {
         int riga = tabella.getSelectedRow();
         if (riga < 0 || riga >= prenotazioniCorrenti.size()) {
@@ -112,7 +119,9 @@ public class FormElencoPrenotazioniMedico {
                 "Dati paziente", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
+    /**
+     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     */
     public JFrame apriFormElencoPrenotazioniMedico() {
         JFrame frame = new JFrame("Elenco prenotazioni - Medico");
         frame.setContentPane(elencoPrenotazioniPanel);
@@ -122,4 +131,5 @@ public class FormElencoPrenotazioniMedico {
         frame.setVisible(true);
         return frame;
     }
+
 }

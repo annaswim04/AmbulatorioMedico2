@@ -1,6 +1,10 @@
 package boundary;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Finestra principale dell'applicazione: menu di accesso ai quattro casi d'uso
@@ -58,7 +62,9 @@ public class FinestraPrincipale {
         return frame == null || !frame.isDisplayable();
     }
 
-    /** Crea e mostra la finestra principale. Restituisce il {@link JFrame} creato. */
+    /**
+     * Crea e mostra la finestra principale. Restituisce il {@link JFrame} creato.
+     */
     public JFrame apriFinestraPrincipale() {
         JFrame frame = new JFrame("Ambulatorio Medico");
 
@@ -80,4 +86,10 @@ public class FinestraPrincipale {
         finestraPrincipale.apriFinestraPrincipale();
     }
 
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return finestraPrincipalePanel;
+    }
 }

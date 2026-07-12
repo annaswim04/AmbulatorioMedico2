@@ -1,10 +1,14 @@
 package boundary;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import com.toedter.calendar.JDateChooser;
 import controller.ControllerPrenotazioni;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,7 @@ public class FormMonitoraggio {
             new Object[]{"Fascia oraria", "Occupazione"}, 0);
 
     public FormMonitoraggio() {
+
         tabellaSpec.setModel(modelloSpec);
         tabellaSpec.getTableHeader().setReorderingAllowed(false);
         tabellaFasce.setModel(modelloFasce);
@@ -81,13 +86,17 @@ public class FormMonitoraggio {
         }
     }
 
-    /** Componenti a creazione manuale richiesti dal form (custom-create). */
+    /**
+     * Componenti a creazione manuale richiesti dal form (custom-create).
+     */
     private void createUIComponents() {
         dataInizio = new JDateChooser();
         dataFine = new JDateChooser();
     }
 
-    /** Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato. */
+    /**
+     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     */
     public JFrame apriFormMonitoraggio() {
         JFrame frame = new JFrame("Monitoraggio ambulatorio");
         frame.setContentPane(monitoraggioPanel);
@@ -97,4 +106,5 @@ public class FormMonitoraggio {
         frame.setVisible(true);
         return frame;
     }
+
 }
