@@ -1,0 +1,106 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"a1065659-d689-45b3-b50c-ea0cb1a6ac5e\" name=\"Changes\" comment=\"effettua prenotazione\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.form\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.form\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;AlessiaDeMichele&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\n  \"selectedUrlAndAccountId\": {\n    \"url\": \"https://github.com/annaswim04/AmbulatorioMedico2.git\",\n    \"accountId\": \"c25c4797-d684-46ae-b2fe-f6b7448c1d44\"\n  }\n}]]></component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;customColor&quot;: &quot;&quot;,\n  &quot;associatedIndex&quot;: 7\n}</component>\n  <component name=\"ProjectId\" id=\"3GM1f840RNMFq17KhSMP9W72FlZ\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Application.FinestraPrincipale.executor\": \"Run\",\n    \"Application.MainSetup.executor\": \"Run\",\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"RunOnceActivity.typescript.service.memoryLimit.init\": \"true\",\n    \"UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH\": \"252\",\n    \"codeWithMe.voiceChat.enabledByDefault\": \"false\",\n    \"git-widget-placeholder\": \"main\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"project.structure.last.edited\": \"SDKs\",\n    \"project.structure.proportion\": \"0.15\",\n    \"project.structure.side.proportion\": \"0.2\",\n    \"settings.editor.selected.configurable\": \"project.propGUI\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"a1065659-d689-45b3-b50c-ea0cb1a6ac5e\" name=\"Changes\" comment=\"\" />\n      <created>1783766725854</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1783766725854</updated>\n      <workItem from=\"1783766729278\" duration=\"1611000\" />\n      <workItem from=\"1783772974717\" duration=\"601000\" />\n      <workItem from=\"1783774982007\" duration=\"5274000\" />\n      <workItem from=\"1783780689792\" duration=\"1225000\" />\n      <workItem from=\"1783789640953\" duration=\"1283000\" />\n      <workItem from=\"1783849206939\" duration=\"2136000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"formMonitoraggio sistemato\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1783768292627</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1783768292627</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"formMonitoraggio sistemato per davvero\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1783780151222</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1783780151222</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"form pagina principale ^_^\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1783781878321</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1783781878321</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"4\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"formMonitoraggio sistemato\" />\n    <MESSAGE value=\"formMonitoraggio sistemato per davvero\" />\n    <MESSAGE value=\"form pagina principale ^_^\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"form pagina principale ^_^\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 98ac87494879d4372c2bbfff7221a518345833a4)
++++ b/.idea/workspace.xml	(date 1783853929744)
+@@ -4,15 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="effettua prenotazione">
++    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="coerenza effettua prenotazione">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.form" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -52,12 +45,12 @@
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.git.unshallow": "true",
+     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "252",
++    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "291",
+     "codeWithMe.voiceChat.enabledByDefault": "false",
+     "git-widget-placeholder": "main",
+     "kotlin-language-version-configured": "true",
+     "nodejs_package_manager_path": "npm",
+-    "project.structure.last.edited": "SDKs",
++    "project.structure.last.edited": "Modules",
+     "project.structure.proportion": "0.15",
+     "project.structure.side.proportion": "0.2",
+     "settings.editor.selected.configurable": "project.propGUI",
+@@ -76,7 +69,7 @@
+       <workItem from="1783774982007" duration="5274000" />
+       <workItem from="1783780689792" duration="1225000" />
+       <workItem from="1783789640953" duration="1283000" />
+-      <workItem from="1783849206939" duration="2136000" />
++      <workItem from="1783849206939" duration="4707000" />
+     </task>
+     <task id="LOCAL-00001" summary="formMonitoraggio sistemato">
+       <option name="closed" value="true" />
+@@ -102,7 +95,23 @@
+       <option name="project" value="LOCAL" />
+       <updated>1783781878321</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="collegamento di effettua prenotazione e visualizza disponibilità">
++      <option name="closed" value="true" />
++      <created>1783851440051</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1783851440051</updated>
++    </task>
++    <task id="LOCAL-00005" summary="coerenza effettua prenotazione">
++      <option name="closed" value="true" />
++      <created>1783853478161</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1783853478161</updated>
++    </task>
++    <option name="localTasksCounter" value="6" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -123,6 +132,8 @@
+     <MESSAGE value="formMonitoraggio sistemato" />
+     <MESSAGE value="formMonitoraggio sistemato per davvero" />
+     <MESSAGE value="form pagina principale ^_^" />
+-    <option name="LAST_COMMIT_MESSAGE" value="form pagina principale ^_^" />
++    <MESSAGE value="collegamento di effettua prenotazione e visualizza disponibilità" />
++    <MESSAGE value="coerenza effettua prenotazione" />
++    <option name="LAST_COMMIT_MESSAGE" value="coerenza effettua prenotazione" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/main/resources/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<persistence xmlns=\"https://jakarta.ee/xml/ns/persistence\"\n             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n             xsi:schemaLocation=\"https://jakarta.ee/xml/ns/persistence\n                                 https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd\"\n             version=\"3.1\">\n\n    <persistence-unit name=\"ambulatoriomedico\">\n        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>\n\n        <class>entity.Utente</class>\n        <class>entity.Paziente</class>\n        <class>entity.Medico</class>\n        <class>entity.Amministratore</class>\n        <class>entity.Prenotazione</class>\n\n        <properties>\n            <property name=\"jakarta.persistence.jdbc.driver\"\n                      value=\"com.mysql.cj.jdbc.Driver\"/>\n            <property name=\"jakarta.persistence.jdbc.url\"\n                      value=\"jdbc:mysql://127.0.0.1:3306/ambulatoriomedico?createDatabaseIfNotExist=true\"/>\n            <property name=\"jakarta.persistence.jdbc.user\"\n                      value=\"root\"/>\n            <property name=\"jakarta.persistence.jdbc.password\"\n                      value=\"Ids2026.\"/>\n\n            <property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>\n            <property name=\"hibernate.show_sql\" value=\"true\"/>\n            <property name=\"hibernate.format_sql\" value=\"true\"/>\n        </properties>\n    </persistence-unit>\n\n</persistence>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/META-INF/persistence.xml b/src/main/resources/META-INF/persistence.xml
+--- a/src/main/resources/META-INF/persistence.xml	(revision 98ac87494879d4372c2bbfff7221a518345833a4)
++++ b/src/main/resources/META-INF/persistence.xml	(date 1783811527559)
+@@ -22,7 +22,7 @@
+             <property name="jakarta.persistence.jdbc.user"
+                       value="root"/>
+             <property name="jakarta.persistence.jdbc.password"
+-                      value="Ids2026."/>
++                      value="password"/>
+ 
+             <property name="hibernate.hbm2ddl.auto" value="update"/>
+             <property name="hibernate.show_sql" value="true"/>

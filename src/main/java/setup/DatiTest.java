@@ -6,7 +6,7 @@ import entity.Medico;
 import entity.Paziente;
 import entity.Prenotazione;
 import entity.Specializzazione;
-import entity.StatoVisita;
+import entity.StatoPrenotazione;
 import entity.Utente;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class DatiTest {
             Prenotazione p2 = new Prenotazione("2026-07-15", "Primo pomeriggio", luca, cardiologo);
             Prenotazione p3 = new Prenotazione("2026-07-16", "Mattina", anna, dermatologo);
             Prenotazione p4 = new Prenotazione("2026-07-16", "Tardo pomeriggio", luca, ortopedico);
-            p4.setStatoVisita(StatoVisita.ANNULLATO); // un annullamento per il monitoraggio
+            p4.setStato(StatoPrenotazione.ANNULLATO); // un annullamento per il monitoraggio
             for (Prenotazione p : List.of(p1, p2, p3, p4)) {
                 gestore.salva(p);
             }

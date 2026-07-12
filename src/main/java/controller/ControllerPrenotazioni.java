@@ -132,7 +132,7 @@ public class ControllerPrenotazioni {
             String paziente = p.getPaziente() != null ? p.getPaziente().getNomeCompleto() : "-";
             String emailPaziente = p.getPaziente() != null ? p.getPaziente().getEmail() : "";
             righe.add(new String[]{
-                    p.getData(), p.getOrario(), paziente, p.getStato().descrizione(), emailPaziente
+                    p.getData(), p.getOrario(), paziente, p.getStato().getDescrizione(), emailPaziente
             });
         }
         return righe;

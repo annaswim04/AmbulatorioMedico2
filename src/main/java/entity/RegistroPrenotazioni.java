@@ -56,7 +56,7 @@ public class RegistroPrenotazioni {
                 Map.of("medico", medico, "data", data));
         Set<String> occupate = new HashSet<>();
         for (Prenotazione p : prenotazioni) {
-            if (p.getStatoVisita() == StatoVisita.PRENOTATO) {
+            if (p.getStato() == StatoPrenotazione.PRENOTATO) {
                 occupate.add(p.getOrario());
             }
         }

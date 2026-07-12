@@ -7,10 +7,16 @@
     <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="form pagina principale ^_^">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/ControllerPrenotazioni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ControllerPrenotazioni.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/AppuntamentoAnnullato.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/AppuntamentoEffettuato.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/AppuntamentoPrenotato.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/PazienteNonPresentato.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Prenotazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Prenotazione.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/RegistroPrenotazioni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/RegistroPrenotazioni.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/RisultatoMonitoraggio.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/ServiziMonitoraggio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/ServiziMonitoraggio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/StatoPrenotazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/StatoPrenotazione.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/StatoVisita.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/setup/DatiTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/setup/DatiTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

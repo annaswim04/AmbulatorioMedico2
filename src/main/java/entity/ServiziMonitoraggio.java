@@ -35,14 +35,14 @@ public class ServiziMonitoraggio {
     /** Prenotazioni con stato PRENOTATO nell'elenco. */
     public List<Prenotazione> filtraPrenotazioniPerStatoPrenotato(List<Prenotazione> elencoPrenotazioni) {
         return elencoPrenotazioni.stream()
-                .filter(p -> p.getStatoVisita() == StatoVisita.PRENOTATO)
+                .filter(p -> p.getStato() == StatoPrenotazione.PRENOTATO)
                 .collect(Collectors.toList());
     }
 
     /** Prenotazioni con stato ANNULLATO nell'elenco. */
     public List<Prenotazione> filtraPrenotazioniPerStatoAnnullato(List<Prenotazione> elencoPrenotazioni) {
         return elencoPrenotazioni.stream()
-                .filter(p -> p.getStatoVisita() == StatoVisita.ANNULLATO)
+                .filter(p -> p.getStato() == StatoPrenotazione.ANNULLATO)
                 .collect(Collectors.toList());
     }
 

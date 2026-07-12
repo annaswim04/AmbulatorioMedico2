@@ -13,10 +13,9 @@ import jakarta.persistence.ManyToOne;
  * Prenotazione di una visita: associa un {@link Paziente} a un {@link Medico}
  * in una certa data e slot orario, con uno stato.
  *
- * Lo stato è persistito come token {@link StatoVisita}, ma la logica delle
- * transizioni passa dal pattern State ({@link StatoPrenotazione}), accessibile
- * via {@link #getStato()} e i metodi {@link #annulla()}, {@link #effettua()},
- * {@link #segnalaAssenza()}.
+ * Lo stato è un enum {@link StatoPrenotazione} persistito come stringa. Le
+ * transizioni ammesse (macchina a stati) sono verificate dai metodi
+ * {@link #annulla()}, {@link #effettua()}, {@link #segnalaAssenza()}.
  */
 @Entity
 public class Prenotazione {
@@ -29,7 +28,7 @@ public class Prenotazione {
     private String orario; // formato "HH:mm"
 
     @Enumerated(EnumType.STRING)
-    private StatoVisita stato;
+    private StatoPrenotazione stato;
 
     @ManyToOne
     @JoinColumn(name = "paziente_email")
@@ -47,26 +46,32 @@ public class Prenotazione {
         this.orario = orario;
         this.paziente = paziente;
         this.medico = medico;
-        this.stato = StatoVisita.PRENOTATO;
+        this.stato = StatoPrenotazione.PRENOTATO;
     }
 
-    // --- Pattern State: transizioni delegate all'oggetto-stato ---
-
-    /** Oggetto-stato corrente (pattern State). */
-    public StatoPrenotazione getStato() {
-        return StatoPrenotazione.da(stato);
-    }
+    // --- Transizioni di stato (macchina a stati del diagramma UML) ---
 
     public void annulla() {
-        this.stato = getStato().annulla().getTipo();
+        verificaTransizioneDaPrenotato();
+        this.stato = StatoPrenotazione.ANNULLATO;
     }
 
     public void effettua() {
-        this.stato = getStato().effettua().getTipo();
+        verificaTransizioneDaPrenotato();
+        this.stato = StatoPrenotazione.EFFETTUATO;
     }
 
     public void segnalaAssenza() {
-        this.stato = getStato().segnalaAssenza().getTipo();
+        verificaTransizioneDaPrenotato();
+        this.stato = StatoPrenotazione.NON_PRESENTATO;
+    }
+
+    /** Le transizioni sono ammesse solo dallo stato iniziale PRENOTATO. */
+    private void verificaTransizioneDaPrenotato() {
+        if (stato != StatoPrenotazione.PRENOTATO) {
+            throw new IllegalStateException(
+                    "Transizione non ammessa dallo stato " + stato.getDescrizione());
+        }
     }
 
     // --- Getter/Setter ---
@@ -91,11 +96,11 @@ public class Prenotazione {
         this.orario = orario;
     }
 
-    public StatoVisita getStatoVisita() {
+    public StatoPrenotazione getStato() {
         return stato;
     }
 
-    public void setStatoVisita(StatoVisita stato) {
+    public void setStato(StatoPrenotazione stato) {
         this.stato = stato;
     }
 

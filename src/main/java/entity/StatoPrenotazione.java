@@ -1,48 +1,29 @@
 package entity;
 
 /**
- * Pattern: STATE. Rappresenta lo stato di una prenotazione e incapsula le
- * transizioni ammesse (macchina a stati del diagramma UML):
+ * Stato di una prenotazione, come da UML. È un semplice enum persistito come
+ * stringa: la logica delle transizioni ammesse (macchina a stati) è a carico
+ * di {@link Prenotazione}.
  *
  * <pre>
- *   Prenotato --annulla-->        Annullato
- *   Prenotato --effettua-->       Effettuato
- *   Prenotato --segnalaAssenza--> PazienteNonPresentato
+ *   PRENOTATO --annulla-->        ANNULLATO
+ *   PRENOTATO --effettua-->       EFFETTUATO
+ *   PRENOTATO --segnalaAssenza--> NON_PRESENTATO
  * </pre>
- *
- * Ogni sottoclasse implementa le transizioni consentite dal proprio stato;
- * gli stati terminali rifiutano ogni transizione. La persistenza avviene tramite
- * il token {@link StatoVisita} restituito da {@link #getTipo()}.
  */
-public abstract class StatoPrenotazione {
+public enum StatoPrenotazione {
+    PRENOTATO("Prenotato"),
+    EFFETTUATO("Effettuato"),
+    ANNULLATO("Annullato"),
+    NON_PRESENTATO("Paziente non presentato");
 
-    /** Token persistente corrispondente a questo stato. */
-    public abstract StatoVisita getTipo();
+    private final String descrizione;
 
-    public String descrizione() {
-        return getTipo().getDescrizione();
+    StatoPrenotazione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
-    // Transizioni: per default non consentite (stati terminali).
-    public StatoPrenotazione annulla() {
-        throw new IllegalStateException("Impossibile annullare da stato " + descrizione());
-    }
-
-    public StatoPrenotazione effettua() {
-        throw new IllegalStateException("Impossibile effettuare da stato " + descrizione());
-    }
-
-    public StatoPrenotazione segnalaAssenza() {
-        throw new IllegalStateException("Impossibile segnalare assenza da stato " + descrizione());
-    }
-
-    /** Factory: ricostruisce l'oggetto-stato a partire dal token persistente. */
-    public static StatoPrenotazione da(StatoVisita tipo) {
-        return switch (tipo) {
-            case PRENOTATO -> AppuntamentoPrenotato.getInstance();
-            case EFFETTUATO -> AppuntamentoEffettuato.getInstance();
-            case ANNULLATO -> AppuntamentoAnnullato.getInstance();
-            case NON_PRESENTATO -> PazienteNonPresentato.getInstance();
-        };
+    public String getDescrizione() {
+        return descrizione;
     }
 }
