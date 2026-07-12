@@ -8,7 +8,10 @@ import controller.ControllerPrenotazioni;
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +33,9 @@ public class FormEffettuaPrenotazione {
     private JDateChooser selettoreData;
     private JComboBox<String> comboFascia;
     private JButton prenotaButton;
+
+    /** Anticipo minimo per prenotare: 48 ore (2 giorni), per rispettare il limite di annullamento. */
+    private static final int GIORNI_MINIMI_ANTICIPO = 2;
 
     private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,6 +97,11 @@ public class FormEffettuaPrenotazione {
             return;
         }
 
+        if (anticipoInsufficiente(selettoreData.getDate())) {
+            mostraErrore("Le prenotazioni vanno effettuate con almeno 48 ore di anticipo.");
+            return;
+        }
+
         String data = formato.format(selettoreData.getDate());
         String nomeMedico = mediciCorrenti.get(comboMedico.getSelectedIndex())[1];
 
@@ -138,6 +149,19 @@ public class FormEffettuaPrenotazione {
      */
     private void createUIComponents() {
         selettoreData = new JDateChooser();
+        // Si può prenotare solo con almeno 48 ore di anticipo: blocca le date prima di oggi+2gg
+        Date primaDataPrenotabile = Date.from(LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant());
+        selettoreData.setMinSelectableDate(primaDataPrenotabile);
+    }
+
+    /**
+     * {@code true} se la data indicata non rispetta l'anticipo minimo di 48 ore
+     * (cioè è precedente a oggi + {@value #GIORNI_MINIMI_ANTICIPO} giorni).
+     */
+    private boolean anticipoInsufficiente(Date data) {
+        LocalDate scelta = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return scelta.isBefore(LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO));
     }
 
     /**

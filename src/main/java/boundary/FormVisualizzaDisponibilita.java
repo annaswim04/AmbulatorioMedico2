@@ -8,7 +8,10 @@ import controller.ControllerPrenotazioni;
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,6 +101,10 @@ public class FormVisualizzaDisponibilita {
      */
     private void createUIComponents() {
         selettoreData = new JDateChooser();
+        // Coerente col limite di prenotazione: solo date da oggi + 48 ore in poi
+        Date primaDataPrenotabile = Date.from(LocalDate.now().plusDays(2)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant());
+        selettoreData.setMinSelectableDate(primaDataPrenotabile);
     }
 
     /**
