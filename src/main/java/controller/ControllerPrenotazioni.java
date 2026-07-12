@@ -8,7 +8,6 @@ import entity.Prenotazione;
 import entity.RegistroPrenotazioni;
 import entity.RegistroSpecializzazioni;
 import entity.RegistroUtenti;
-import entity.RisultatoMonitoraggio;
 import entity.ServiziMonitoraggio;
 import entity.Specializzazione;
 
@@ -176,24 +175,30 @@ public class ControllerPrenotazioni {
      * </ul>
      */
     public Map<String, List<String[]>> visualizzaMonitoraggioAmbulatorio(String dataInizio, String dataFine) {
-        RisultatoMonitoraggio r = serviziMonitoraggio.monitora(dataInizio, dataFine);
+        List<Prenotazione> elencoPrenotazioni = registroPrenotazioni.getElencoPrenotazioni();
+        List<Prenotazione> elencoNelPeriodo =
+                serviziMonitoraggio.filtraPrenotazioniPerIntervallo(dataInizio, dataFine, elencoPrenotazioni);
         Map<String, List<String[]>> riepilogo = new LinkedHashMap<>();
 
         List<String[]> totali = new ArrayList<>();
         totali.add(new String[]{
-                String.valueOf(r.getNumeroPrenotazioni()),
-                String.valueOf(r.getNumeroAnnullamenti())
+                String.valueOf(serviziMonitoraggio.getNumeroPrenotazioni(elencoNelPeriodo)),
+                String.valueOf(serviziMonitoraggio.getNumeroAnnullamenti(elencoNelPeriodo))
         });
         riepilogo.put("totali", totali);
 
         List<String[]> specializzazioni = new ArrayList<>();
-        for (Map.Entry<Specializzazione, Integer> e : r.getPrenotazioniPerSpecializzazione().entrySet()) {
+        Map<Specializzazione, Integer> perSpecializzazione =
+                serviziMonitoraggio.getNumeroPrenotazioniPerSpecializzazione(elencoNelPeriodo);
+        for (Map.Entry<Specializzazione, Integer> e : perSpecializzazione.entrySet()) {
             specializzazioni.add(new String[]{e.getKey().getDescrizione(), String.valueOf(e.getValue())});
         }
         riepilogo.put("specializzazioni", specializzazioni);
 
         List<String[]> fasce = new ArrayList<>();
-        for (Map.Entry<String, Integer> e : r.getOccupazioneFasce().entrySet()) {
+        Map<String, Integer> occupazioneFasce =
+                serviziMonitoraggio.getOccupazioneFasce(elencoNelPeriodo);
+        for (Map.Entry<String, Integer> e : occupazioneFasce.entrySet()) {
             fasce.add(new String[]{e.getKey(), String.valueOf(e.getValue())});
         }
         riepilogo.put("fasce", fasce);

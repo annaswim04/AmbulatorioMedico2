@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="effettua prenotazione">
+    <list default="true" id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="form pagina principale ^_^">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FinestraPrincipale.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormEffettuaPrenotazione.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormElencoPrenotazioniMedico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormMonitoraggio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boundary/FormVisualizzaDisponibilita.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ControllerPrenotazioni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ControllerPrenotazioni.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/RegistroPrenotazioni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/RegistroPrenotazioni.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/RisultatoMonitoraggio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/ServiziMonitoraggio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/ServiziMonitoraggio.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,12 +26,12 @@
     &quot;assignee&quot;: &quot;AlessiaDeMichele&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/annaswim04/AmbulatorioMedico2.git",
-    "accountId": "c25c4797-d684-46ae-b2fe-f6b7448c1d44"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/annaswim04/AmbulatorioMedico2.git&quot;,
+    &quot;accountId&quot;: &quot;37860b61-76d4-41bd-89dc-c929d4aff7d2&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -44,26 +41,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.FinestraPrincipale.executor": "Run",
-    "Application.MainSetup.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "252",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "project.propGUI",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FinestraPrincipale.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainSetup.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="a1065659-d689-45b3-b50c-ea0cb1a6ac5e" name="Changes" comment="" />
@@ -76,7 +72,6 @@
       <workItem from="1783774982007" duration="5274000" />
       <workItem from="1783780689792" duration="1225000" />
       <workItem from="1783789640953" duration="1283000" />
-      <workItem from="1783849206939" duration="2136000" />
     </task>
     <task id="LOCAL-00001" summary="formMonitoraggio sistemato">
       <option name="closed" value="true" />

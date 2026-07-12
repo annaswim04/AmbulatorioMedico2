@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Registro delle prenotazioni. Contiene la logica applicativa di salvataggio e
@@ -93,14 +92,5 @@ public class RegistroPrenotazioni {
     /** Elenco completo delle prenotazioni presenti nel sistema. */
     public List<Prenotazione> getElencoPrenotazioni() {
         return gestore.cercaTutti(Prenotazione.class);
-    }
-
-    /** Prenotazioni comprese nell'intervallo [dataInizio, dataFine] (inclusi). */
-    public List<Prenotazione> getPrenotazioniPerIntervallo(String dataInizio, String dataFine) {
-        return getElencoPrenotazioni().stream()
-                .filter(p -> p.getData() != null
-                        && p.getData().compareTo(dataInizio) >= 0
-                        && p.getData().compareTo(dataFine) <= 0)
-                .collect(Collectors.toList());
     }
 }

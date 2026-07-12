@@ -1,60 +1,108 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Servizi di monitoraggio dell'andamento dell'ambulatorio (per l'amministratore).
  * Elabora le prenotazioni in un intervallo di tempo producendo i conteggi
  * richiesti: totale prenotazioni, annullamenti, distribuzione per specializzazione
  * e occupazione delle {@link FasciaOraria fasce orarie}.
+ *
+ * <p>Il chiamante filtra prima per intervallo con {@link #filtraPrenotazioniPerIntervallo}
+ * e passa il risultato agli altri metodi, evitando di ripetere il filtro per data
+ * ad ogni operazione.</p>
  */
 public class ServiziMonitoraggio {
 
-    private final RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
-
-    /** Produce il riepilogo completo per l'intervallo [dataInizio, dataFine]. */
-    public RisultatoMonitoraggio monitora(String dataInizio, String dataFine) {
-        List<Prenotazione> prenotazioni =
-                registroPrenotazioni.getPrenotazioniPerIntervallo(dataInizio, dataFine);
-
-        RisultatoMonitoraggio risultato = new RisultatoMonitoraggio(dataInizio, dataFine);
-        risultato.setNumeroPrenotazioni(getNumeroPrenotazioni(prenotazioni));
-        risultato.setNumeroAnnullamenti(getNumeroAnnullamenti(prenotazioni));
-
-        // Prenotazioni per specializzazione (escluse le annullate)
-        for (Specializzazione s : Specializzazione.values()) {
-            int n = (int) prenotazioni.stream()
-                    .filter(p -> p.getStatoVisita() != StatoVisita.ANNULLATO)
-                    .filter(p -> p.getMedico() != null && p.getMedico().getSpecializzazione() == s)
-                    .count();
-            if (n > 0) {
-                risultato.getPrenotazioniPerSpecializzazione().put(s, n);
+    /** Prenotazioni comprese nell'intervallo [dataInizio, dataFine] (inclusi). */
+    public List<Prenotazione> filtraPrenotazioniPerIntervallo(String dataInizio, String dataFine,
+                                                                List<Prenotazione> elencoPrenotazioni) {
+        List<Prenotazione> filtrate = new ArrayList<>();
+        for (Prenotazione p : elencoPrenotazioni) {
+            if (p.getData() != null
+                    && p.getData().compareTo(dataInizio) >= 0
+                    && p.getData().compareTo(dataFine) <= 0) {
+                filtrate.add(p);
             }
         }
+        return filtrate;
+    }
 
-        // Occupazione delle fasce orarie (Mattina / Primo pomeriggio / Tardo pomeriggio)
-        for (FasciaOraria fascia : FasciaOraria.valori()) {
-            int occupati = (int) prenotazioni.stream()
-                    .filter(p -> p.getStatoVisita() != StatoVisita.ANNULLATO)
-                    .filter(p -> fascia.getNome().equals(p.getOrario()))
-                    .count();
-            risultato.getOccupazioneFasce().put(fascia.getNome(), occupati);
+    /** Prenotazioni con stato PRENOTATO nell'elenco. */
+    public List<Prenotazione> filtraPrenotazioniPerStatoPrenotato(List<Prenotazione> elencoPrenotazioni) {
+        return elencoPrenotazioni.stream()
+                .filter(p -> p.getStatoVisita() == StatoVisita.PRENOTATO)
+                .collect(Collectors.toList());
+    }
+
+    /** Prenotazioni con stato ANNULLATO nell'elenco. */
+    public List<Prenotazione> filtraPrenotazioniPerStatoAnnullato(List<Prenotazione> elencoPrenotazioni) {
+        return elencoPrenotazioni.stream()
+                .filter(p -> p.getStatoVisita() == StatoVisita.ANNULLATO)
+                .collect(Collectors.toList());
+    }
+
+    /** Numero di elementi dell'elenco filtrato. */
+    public int contaPrenotazioni(List<Prenotazione> elencoFiltrato) {
+        return elencoFiltrato.size();
+    }
+
+    /** Numero di visite con stato PRENOTATO nell'elenco (già filtrato per intervallo). */
+    public int getNumeroPrenotazioni(List<Prenotazione> elencoPrenotazioni) {
+        return contaPrenotazioni(filtraPrenotazioniPerStatoPrenotato(elencoPrenotazioni));
+    }
+
+    /** Numero di annullamenti nell'elenco (già filtrato per intervallo). */
+    public int getNumeroAnnullamenti(List<Prenotazione> elencoPrenotazioni) {
+        return contaPrenotazioni(filtraPrenotazioniPerStatoAnnullato(elencoPrenotazioni));
+    }
+
+    /** Prenotazioni (in qualsiasi stato) di una specializzazione, nell'elenco. */
+    public List<Prenotazione> filtraPrenotazioniPerSpecializzazione(Specializzazione specializzazione,
+                                                                      List<Prenotazione> elencoPrenotazioni) {
+        return elencoPrenotazioni.stream()
+                .filter(p -> p.getMedico() != null && p.getMedico().getSpecializzazione() == specializzazione)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Numero di prenotazioni (in qualsiasi stato) per specializzazione, nell'elenco
+     * (già filtrato per intervallo). Sono incluse solo le specializzazioni con almeno
+     * una prenotazione.
+     */
+    public Map<Specializzazione, Integer> getNumeroPrenotazioniPerSpecializzazione(List<Prenotazione> elencoPrenotazioni) {
+        Map<Specializzazione, Integer> risultato = new LinkedHashMap<>();
+        for (Specializzazione s : Specializzazione.values()) {
+            int n = contaPrenotazioni(filtraPrenotazioniPerSpecializzazione(s, elencoPrenotazioni));
+            if (n > 0) {
+                risultato.put(s, n);
+            }
         }
-
         return risultato;
     }
 
-    /** Numero di visite prenotate (non annullate) nell'elenco. */
-    public int getNumeroPrenotazioni(List<Prenotazione> prenotazioni) {
-        return (int) prenotazioni.stream()
-                .filter(p -> p.getStatoVisita() != StatoVisita.ANNULLATO)
-                .count();
+    /** Prenotazioni (in qualsiasi stato) di una fascia oraria, nell'elenco. */
+    public List<Prenotazione> filtraPrenotazioniPerFasciaOraria(FasciaOraria fascia,
+                                                                  List<Prenotazione> elencoPrenotazioni) {
+        return elencoPrenotazioni.stream()
+                .filter(p -> fascia.getNome().equals(p.getOrario()))
+                .collect(Collectors.toList());
     }
 
-    /** Numero di annullamenti nell'elenco. */
-    public int getNumeroAnnullamenti(List<Prenotazione> prenotazioni) {
-        return (int) prenotazioni.stream()
-                .filter(p -> p.getStatoVisita() == StatoVisita.ANNULLATO)
-                .count();
+    /**
+     * Occupazione (numero di prenotazioni in qualsiasi stato) di ogni fascia oraria,
+     * nell'elenco (già filtrato per intervallo).
+     */
+    public Map<String, Integer> getOccupazioneFasce(List<Prenotazione> elencoPrenotazioni) {
+        Map<String, Integer> risultato = new LinkedHashMap<>();
+        for (FasciaOraria fascia : FasciaOraria.valori()) {
+            int occupati = contaPrenotazioni(filtraPrenotazioniPerFasciaOraria(fascia, elencoPrenotazioni));
+            risultato.put(fascia.getNome(), occupati);
+        }
+        return risultato;
     }
 }
