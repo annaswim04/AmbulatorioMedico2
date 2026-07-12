@@ -17,12 +17,7 @@ import java.util.List;
 /**
  * Boundary del caso d'uso "Effettua prenotazione".
  * Il paziente sceglie specializzazione, medico, data e fascia oraria libera e
- * conferma. A prenotazione avvenuta, la notifica di conferma è inviata tramite
- * il {@link SistemaNotifiche} (COTS), coerentemente col pattern BCED.
- *
- * <p>La UI è definita in {@code FormEffettuaPrenotazione.form}. La boundary
- * comunica solo con il {@link ControllerPrenotazioni} e riceve dati come
- * stringhe: non importa mai il package {@code entity}.</p>
+ * conferma.
  */
 public class FormEffettuaPrenotazione {
 
@@ -155,17 +150,13 @@ public class FormEffettuaPrenotazione {
         selettoreData.setMinSelectableDate(primaDataPrenotabile);
     }
 
-    /**
-     * {@code true} se la data indicata non rispetta l'anticipo minimo di 48 ore
-     * (cioè è precedente a oggi + {@value #GIORNI_MINIMI_ANTICIPO} giorni).
-     */
     private boolean anticipoInsufficiente(Date data) {
         LocalDate scelta = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return scelta.isBefore(LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO));
     }
 
     /**
-     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     * Crea e mostra la finestra del caso d'uso.
      */
     public JFrame apriFormEffettuaPrenotazione() {
         JFrame frame = new JFrame("Effettua prenotazione");
@@ -177,9 +168,7 @@ public class FormEffettuaPrenotazione {
         return frame;
     }
 
-    /**
-     * @noinspection ALL
-     */
+
     public JComponent $$$getRootComponent$$$() {
         return effettuaPrenotazionePanel;
     }
