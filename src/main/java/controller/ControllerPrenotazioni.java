@@ -12,6 +12,7 @@ import entity.ServiziMonitoraggio;
 import entity.Specializzazione;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,46 +37,30 @@ public class ControllerPrenotazioni {
     public static final int MEDICO_NON_ESISTENTE = RegistroPrenotazioni.MEDICO_NON_ESISTENTE;
     public static final int FASCIA_NON_DISPONIBILE = RegistroPrenotazioni.FASCIA_NON_DISPONIBILE;
 
-
-    private static ControllerPrenotazioni instance;
-
-    private final RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
-    private final RegistroSpecializzazioni registroSpecializzazioni = new RegistroSpecializzazioni();
-    private final RegistroUtenti registroUtenti = new RegistroUtenti();
-    private final ServiziMonitoraggio serviziMonitoraggio = new ServiziMonitoraggio();
-
-    private ControllerPrenotazioni() {
-    }
-
-    public static ControllerPrenotazioni getInstance() {
-        if (instance == null) {
-            instance = new ControllerPrenotazioni();
-        }
-        return instance;
-    }
-
     // --- UC: Visualizza disponibilità ---
 
-    /** Descrizioni delle specializzazioni offerte dall'ambulatorio. */
-    public String[] getSpecializzazioni() {
+    /** Nomi delle specializzazioni offerte dall'ambulatorio. */
+    public static String[] getSpecializzazioni() {
+        RegistroSpecializzazioni registroSpecializzazioni = new RegistroSpecializzazioni();
         List<Specializzazione> specializzazioni = registroSpecializzazioni.getSpecializzazioni();
-        String[] descrizioni = new String[specializzazioni.size()];
+        String[] nomi = new String[specializzazioni.size()];
         for (int i = 0; i < specializzazioni.size(); i++) {
-            descrizioni[i] = specializzazioni.get(i).getDescrizione();
+            nomi[i] = specializzazioni.get(i).name();
         }
-        return descrizioni;
+        return nomi;
     }
 
     /**
-     * Medici di una specializzazione (indicata per descrizione).
+     * Medici di una specializzazione (indicata per nome).
      * Ogni elemento è la coppia {@code {email, nomeCompleto}}.
      */
-    public List<String[]> getMedici(String descrizioneSpecializzazione) {
+    public static List<String[]> getMedici(String nomeSpecializzazione) {
         List<String[]> medici = new ArrayList<>();
-        Specializzazione specializzazione = specializzazioneDaDescrizione(descrizioneSpecializzazione);
+        Specializzazione specializzazione = specializzazioneDaNome(nomeSpecializzazione);
         if (specializzazione == null) {
             return medici;
         }
+        RegistroSpecializzazioni registroSpecializzazioni = new RegistroSpecializzazioni();
         for (Medico m : registroSpecializzazioni.getMedici(specializzazione)) {
             medici.add(new String[]{m.getEmail(), m.getNomeCompleto()});
         }
@@ -83,25 +68,47 @@ public class ControllerPrenotazioni {
     }
 
     /** Nomi delle fasce orarie libere di un medico in una data. */
-    public String[] visualizzaDisponibilita(String emailMedico, String data) {
+    public static String[] visualizzaDisponibilita(String emailMedico, String data) {
+        RegistroUtenti registroUtenti = new RegistroUtenti();
         Medico medico = registroUtenti.getMedico(emailMedico);
         if (medico == null) {
             return new String[0];
         }
+        RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
         DisponibilitaMedico disponibilita = registroPrenotazioni.getDisponibilita(medico, data);
         List<FasciaOraria> fasce = disponibilita.getFasceOrarieDisponibili();
         String[] nomi = new String[fasce.size()];
         for (int i = 0; i < fasce.size(); i++) {
-            nomi[i] = fasce.get(i).getNome();
+            nomi[i] = fasce.get(i).name();
         }
         return nomi;
+    }
+
+    /**
+     * Date, nell'orizzonte di prenotazione, in cui un medico ha almeno una
+     * fascia oraria libera (usato per abilitare solo quei giorni nel calendario).
+     */
+    public static String[] getDateDisponibili(String emailMedico) {
+        RegistroUtenti registroUtenti = new RegistroUtenti();
+        Medico medico = registroUtenti.getMedico(emailMedico);
+        if (medico == null) {
+            return new String[0];
+        }
+        RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
+        List<DisponibilitaMedico> disponibilita = registroPrenotazioni.getDateDisponibili(medico);
+        String[] date = new String[disponibilita.size()];
+        for (int i = 0; i < disponibilita.size(); i++) {
+            date[i] = disponibilita.get(i).getData();
+        }
+        return date;
     }
 
     // --- UC: Effettua prenotazione ---
 
     /** Effettua una prenotazione; restituisce uno dei codici di esito pubblici. */
-    public int effettuaPrenotazione(String emailPaziente, String emailMedico,
+    public static int effettuaPrenotazione(String emailPaziente, String emailMedico,
                                     String data, String fascia) {
+        RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
         return registroPrenotazioni.salvaPrenotazione(emailPaziente, emailMedico, data, fascia);
     }
 
@@ -113,7 +120,7 @@ public class ControllerPrenotazioni {
      * L'ultimo campo (email del paziente) è ad uso interno della boundary per
      * richiamare {@link #getDatiPaziente(String)}: non va mostrato in tabella.
      */
-    public List<String[]> visualizzaElencoPrenotazioni(String emailMedico) {
+    public static List<String[]> visualizzaElencoPrenotazioni(String emailMedico) {
         return visualizzaElencoPrenotazioni(emailMedico, null, null);
     }
 
@@ -122,28 +129,30 @@ public class ControllerPrenotazioni {
      * (formato {@code yyyy-MM-dd}) e/o fascia oraria. Filtri {@code null} o
      * vuoti sono ignorati.
      */
-    public List<String[]> visualizzaElencoPrenotazioni(String emailMedico, String filtroData, String filtroFascia) {
+    public static List<String[]> visualizzaElencoPrenotazioni(String emailMedico, String filtroData, String filtroFascia) {
         List<String[]> righe = new ArrayList<>();
+        RegistroUtenti registroUtenti = new RegistroUtenti();
         Medico medico = registroUtenti.getMedico(emailMedico);
         if (medico == null) {
             return righe;
         }
+        RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
         for (Prenotazione p : registroPrenotazioni.getPrenotazioniPerMedico(medico, filtroData, filtroFascia)) {
             String paziente = p.getPaziente() != null ? p.getPaziente().getNomeCompleto() : "-";
             String emailPaziente = p.getPaziente() != null ? p.getPaziente().getEmail() : "";
             righe.add(new String[]{
-                    p.getData(), p.getOrario(), paziente, p.getStato().getDescrizione(), emailPaziente
+                    p.getData(), p.getOrario(), paziente, p.getStato().name(), emailPaziente
             });
         }
         return righe;
     }
 
     /** Nomi delle fasce orarie della giornata, per popolare un filtro. */
-    public String[] getFasceOrarie() {
-        List<FasciaOraria> fasce = FasciaOraria.valori();
+    public static String[] getFasceOrarie() {
+        List<FasciaOraria> fasce = Arrays.asList(FasciaOraria.values());
         String[] nomi = new String[fasce.size()];
         for (int i = 0; i < fasce.size(); i++) {
-            nomi[i] = fasce.get(i).getNome();
+            nomi[i] = fasce.get(i).name();
         }
         return nomi;
     }
@@ -154,7 +163,8 @@ public class ControllerPrenotazioni {
      * Dati anagrafici di un paziente, come riga {@code {email, nome, cognome, recapito}}.
      * Restituisce {@code null} se il paziente non esiste.
      */
-    public String[] getDatiPaziente(String emailPaziente) {
+    public static String[] getDatiPaziente(String emailPaziente) {
+        RegistroUtenti registroUtenti = new RegistroUtenti();
         Paziente paziente = registroUtenti.getPaziente(emailPaziente);
         if (paziente == null) {
             return null;
@@ -170,11 +180,13 @@ public class ControllerPrenotazioni {
      * Riepilogo del monitoraggio, come mappa con tre chiavi:
      * <ul>
      *   <li>{@code "totali"} → una riga {@code {numeroPrenotazioni, numeroAnnullamenti}};</li>
-     *   <li>{@code "specializzazioni"} → righe {@code {descrizione, conteggio}};</li>
+     *   <li>{@code "specializzazioni"} → righe {@code {nome, conteggio}};</li>
      *   <li>{@code "fasce"} → righe {@code {fascia, occupazione}}.</li>
      * </ul>
      */
-    public Map<String, List<String[]>> visualizzaMonitoraggioAmbulatorio(String dataInizio, String dataFine) {
+    public static Map<String, List<String[]>> visualizzaMonitoraggioAmbulatorio(String dataInizio, String dataFine) {
+        RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();
+        ServiziMonitoraggio serviziMonitoraggio = new ServiziMonitoraggio();
         List<Prenotazione> elencoPrenotazioni = registroPrenotazioni.getElencoPrenotazioni();
         List<Prenotazione> elencoNelPeriodo =
                 serviziMonitoraggio.filtraPrenotazioniPerIntervallo(dataInizio, dataFine, elencoPrenotazioni);
@@ -191,7 +203,7 @@ public class ControllerPrenotazioni {
         Map<Specializzazione, Integer> perSpecializzazione =
                 serviziMonitoraggio.getNumeroPrenotazioniPerSpecializzazione(elencoNelPeriodo);
         for (Map.Entry<Specializzazione, Integer> e : perSpecializzazione.entrySet()) {
-            specializzazioni.add(new String[]{e.getKey().getDescrizione(), String.valueOf(e.getValue())});
+            specializzazioni.add(new String[]{e.getKey().name(), String.valueOf(e.getValue())});
         }
         riepilogo.put("specializzazioni", specializzazioni);
 
@@ -208,9 +220,9 @@ public class ControllerPrenotazioni {
 
     // --- Helper interni ---
 
-    private Specializzazione specializzazioneDaDescrizione(String descrizione) {
+    private static Specializzazione specializzazioneDaNome(String nome) {
         for (Specializzazione s : Specializzazione.values()) {
-            if (s.getDescrizione().equals(descrizione)) {
+            if (s.name().equals(nome)) {
                 return s;
             }
         }

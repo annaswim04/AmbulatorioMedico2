@@ -32,7 +32,6 @@ public class FormEffettuaPrenotazione {
     /** Anticipo minimo per prenotare: 48 ore (2 giorni), per rispettare il limite di annullamento. */
     private static final int GIORNI_MINIMI_ANTICIPO = 2;
 
-    private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -43,7 +42,7 @@ public class FormEffettuaPrenotazione {
     public FormEffettuaPrenotazione() {
 
 
-        for (String descrizione : controller.getSpecializzazioni()) {
+        for (String descrizione : ControllerPrenotazioni.getSpecializzazioni()) {
             comboSpecializzazione.addItem(descrizione);
         }
         comboSpecializzazione.setSelectedIndex(-1);
@@ -61,7 +60,7 @@ public class FormEffettuaPrenotazione {
             mediciCorrenti = new ArrayList<>();
             return;
         }
-        mediciCorrenti = controller.getMedici(specializzazione);
+        mediciCorrenti = ControllerPrenotazioni.getMedici(specializzazione);
         for (String[] medico : mediciCorrenti) {
             comboMedico.addItem(medico[1]);
         }
@@ -74,7 +73,7 @@ public class FormEffettuaPrenotazione {
             return;
         }
         String data = formato.format(selettoreData.getDate());
-        for (String fascia : controller.visualizzaDisponibilita(emailMedico, data)) {
+        for (String fascia : ControllerPrenotazioni.visualizzaDisponibilita(emailMedico, data)) {
             comboFascia.addItem(fascia);
         }
     }
@@ -100,7 +99,7 @@ public class FormEffettuaPrenotazione {
         String data = formato.format(selettoreData.getDate());
         String nomeMedico = mediciCorrenti.get(comboMedico.getSelectedIndex())[1];
 
-        int esito = controller.effettuaPrenotazione(emailPaziente, emailMedico, data, fascia);
+        int esito = ControllerPrenotazioni.effettuaPrenotazione(emailPaziente, emailMedico, data, fascia);
 
         switch (esito) {
             case ControllerPrenotazioni.SUCCESSO -> {

@@ -32,7 +32,6 @@ public class FormElencoPrenotazioniMedico {
     private JScrollPane ScrollPane;
     private JTable tabella;
 
-    private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final DefaultTableModel modello = new DefaultTableModel(
             new Object[]{"Data", "Fascia oraria", "Paziente", "Stato"}, 0) {
         @Override
@@ -51,7 +50,7 @@ public class FormElencoPrenotazioniMedico {
         tabella.getTableHeader().setReorderingAllowed(false);
 
         comboFiltroFascia.addItem("Tutte");
-        for (String fascia : controller.getFasceOrarie()) {
+        for (String fascia : ControllerPrenotazioni.getFasceOrarie()) {
             comboFiltroFascia.addItem(fascia);
         }
         comboFiltroFascia.setSelectedIndex(0);
@@ -79,7 +78,7 @@ public class FormElencoPrenotazioniMedico {
                 ? (String) comboFiltroFascia.getSelectedItem()
                 : null;
 
-        List<String[]> prenotazioni = controller.visualizzaElencoPrenotazioni(
+        List<String[]> prenotazioni = ControllerPrenotazioni.visualizzaElencoPrenotazioni(
                 email, filtroData.isEmpty() ? null : filtroData, filtroFascia);
         if (prenotazioni.isEmpty()) {
             JOptionPane.showMessageDialog(elencoPrenotazioniPanel,
@@ -105,7 +104,7 @@ public class FormElencoPrenotazioniMedico {
         if (emailPaziente.isEmpty()) {
             return;
         }
-        String[] dati = controller.getDatiPaziente(emailPaziente);
+        String[] dati = ControllerPrenotazioni.getDatiPaziente(emailPaziente);
         if (dati == null) {
             JOptionPane.showMessageDialog(elencoPrenotazioniPanel,
                     "Paziente non trovato.", "Errore", JOptionPane.ERROR_MESSAGE);

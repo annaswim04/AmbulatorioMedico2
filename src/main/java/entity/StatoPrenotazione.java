@@ -12,18 +12,8 @@ package entity;
  * </pre>
  */
 public enum StatoPrenotazione {
-    PRENOTATO("Prenotato"),
-    EFFETTUATO("Effettuato"),
-    ANNULLATO("Annullato"),
-    NON_PRESENTATO("Paziente non presentato");
-
-    private final String descrizione;
-
-    StatoPrenotazione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
+    PRENOTATO,
+    EFFETTUATO,
+    ANNULLATO,
+    NON_PRESENTATO
 }

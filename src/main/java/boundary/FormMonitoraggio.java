@@ -32,7 +32,6 @@ public class FormMonitoraggio {
     private JTable tabellaSpec;
     private JTable tabellaFasce;
 
-    private final ControllerPrenotazioni controller = ControllerPrenotazioni.getInstance();
     private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
     private final DefaultTableModel modelloSpec = new DefaultTableModel(
@@ -65,7 +64,7 @@ public class FormMonitoraggio {
         }
 
         Map<String, List<String[]>> riepilogo =
-                controller.visualizzaMonitoraggioAmbulatorio(inizio, fine);
+                ControllerPrenotazioni.visualizzaMonitoraggioAmbulatorio(inizio, fine);
 
         String[] totali = riepilogo.get("totali").get(0);
         etichettaTotali.setText(String.format(

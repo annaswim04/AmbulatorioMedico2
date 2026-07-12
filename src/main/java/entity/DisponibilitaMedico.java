@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Disponibilità di un medico in una data. Oggetto di dominio (non persistito):
  * si ottiene dall'elenco delle fasce orarie della giornata
- * ({@link FasciaOraria#valori()}) escludendo quelle già occupate da una
+ * ({@link FasciaOraria#values()}) escludendo quelle già occupate da una
  * prenotazione.
  */
 public class DisponibilitaMedico {
@@ -24,8 +24,8 @@ public class DisponibilitaMedico {
     public DisponibilitaMedico(Medico medico, String data, Set<String> fasceOccupate) {
         this.medico = medico;
         this.data = data;
-        for (FasciaOraria fascia : FasciaOraria.valori()) {
-            if (!fasceOccupate.contains(fascia.getNome())) {
+        for (FasciaOraria fascia : FasciaOraria.values()) {
+            if (!fasceOccupate.contains(fascia.name())) {
                 fasceDisponibili.add(fascia);
             }
         }

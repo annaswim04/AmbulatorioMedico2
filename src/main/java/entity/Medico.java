@@ -5,6 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Medico dell'ambulatorio. Sottotipo di {@link Utente}, caratterizzato dalla
  * propria {@link Specializzazione}.
@@ -31,5 +36,23 @@ public class Medico extends Utente {
 
     public void setSpecializzazione(Specializzazione specializzazione) {
         this.specializzazione = specializzazione;
+    }
+
+    /**
+     * Informazione esperta (GRASP): tra le date indicate, quelle in cui il
+     * medico ha almeno una fascia oraria libera, note le fasce già occupate
+     * in ciascuna data.
+     *
+     * @param fasceOccupatePerData fasce occupate per ciascuna data (yyyy-MM-dd) da valutare
+     */
+    public List<DisponibilitaMedico> getDateDisponibili(Map<String, Set<String>> fasceOccupatePerData) {
+        List<DisponibilitaMedico> dateDisponibili = new ArrayList<>();
+        for (Map.Entry<String, Set<String>> e : fasceOccupatePerData.entrySet()) {
+            DisponibilitaMedico disponibilita = new DisponibilitaMedico(this, e.getKey(), e.getValue());
+            if (disponibilita.isDisponibile()) {
+                dateDisponibili.add(disponibilita);
+            }
+        }
+        return dateDisponibili;
     }
 }

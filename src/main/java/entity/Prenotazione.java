@@ -13,9 +13,7 @@ import jakarta.persistence.ManyToOne;
  * Prenotazione di una visita: associa un {@link Paziente} a un {@link Medico}
  * in una certa data e slot orario, con uno stato.
  *
- * Lo stato è un enum {@link StatoPrenotazione} persistito come stringa. Le
- * transizioni ammesse (macchina a stati) sono verificate dai metodi
- * {@link #annulla()}, {@link #effettua()}, {@link #segnalaAssenza()}.
+ * Lo stato è un enum {@link StatoPrenotazione} persistito come stringa.
  */
 @Entity
 public class Prenotazione {
@@ -47,31 +45,6 @@ public class Prenotazione {
         this.paziente = paziente;
         this.medico = medico;
         this.stato = StatoPrenotazione.PRENOTATO;
-    }
-
-    // --- Transizioni di stato (macchina a stati del diagramma UML) ---
-
-    public void annulla() {
-        verificaTransizioneDaPrenotato();
-        this.stato = StatoPrenotazione.ANNULLATO;
-    }
-
-    public void effettua() {
-        verificaTransizioneDaPrenotato();
-        this.stato = StatoPrenotazione.EFFETTUATO;
-    }
-
-    public void segnalaAssenza() {
-        verificaTransizioneDaPrenotato();
-        this.stato = StatoPrenotazione.NON_PRESENTATO;
-    }
-
-    /** Le transizioni sono ammesse solo dallo stato iniziale PRENOTATO. */
-    private void verificaTransizioneDaPrenotato() {
-        if (stato != StatoPrenotazione.PRENOTATO) {
-            throw new IllegalStateException(
-                    "Transizione non ammessa dallo stato " + stato.getDescrizione());
-        }
     }
 
     // --- Getter/Setter ---

@@ -2,8 +2,10 @@ package entity;
 
 import database.GestorePersistenza;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,12 +17,16 @@ import java.util.Set;
  */
 public class RegistroPrenotazioni {
 
-    // Codici di esito
     public static final int SUCCESSO = 1;
     public static final int PAZIENTE_NON_ESISTENTE = 2;
     public static final int MEDICO_NON_ESISTENTE = 3;
     public static final int FASCIA_NON_DISPONIBILE = 4;
     public static final int ERRORE_DB = 5;
+
+    /** Anticipo minimo per prenotare: 48 ore (2 giorni). */
+    private static final int GIORNI_MINIMI_ANTICIPO = 2;
+    /** Orizzonte massimo di prenotazione: 60 giorni da oggi. */
+    private static final int GIORNI_MASSIMI_ANTICIPO = 60;
 
     private final GestorePersistenza gestore = new GestorePersistenza();
     private final RegistroUtenti registroUtenti = new RegistroUtenti();
@@ -66,6 +72,22 @@ public class RegistroPrenotazioni {
     /** Calcola la disponibilità di un medico in una data (fasce libere). */
     public DisponibilitaMedico getDisponibilita(Medico medico, String data) {
         return new DisponibilitaMedico(medico, data, getFasceOccupate(medico, data));
+    }
+
+    /**
+     * Date, nell'orizzonte di prenotazione (da {@value #GIORNI_MINIMI_ANTICIPO}
+     * a {@value #GIORNI_MASSIMI_ANTICIPO} giorni da oggi), in cui il medico ha
+     * almeno una fascia oraria libera.
+     */
+    public List<DisponibilitaMedico> getDateDisponibili(Medico medico) {
+        Map<String, Set<String>> fasceOccupatePerData = new LinkedHashMap<>();
+        LocalDate inizio = LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO);
+        LocalDate fine = LocalDate.now().plusDays(GIORNI_MASSIMI_ANTICIPO);
+        for (LocalDate d = inizio; !d.isAfter(fine); d = d.plusDays(1)) {
+            String data = d.toString();
+            fasceOccupatePerData.put(data, getFasceOccupate(medico, data));
+        }
+        return medico.getDateDisponibili(fasceOccupatePerData);
     }
 
     /** Tutte le prenotazioni di un medico (UC elenco prenotazioni medico). */

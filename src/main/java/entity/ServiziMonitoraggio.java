@@ -89,7 +89,7 @@ public class ServiziMonitoraggio {
     public List<Prenotazione> filtraPrenotazioniPerFasciaOraria(FasciaOraria fascia,
                                                                   List<Prenotazione> elencoPrenotazioni) {
         return elencoPrenotazioni.stream()
-                .filter(p -> fascia.getNome().equals(p.getOrario()))
+                .filter(p -> fascia.name().equals(p.getOrario()))
                 .collect(Collectors.toList());
     }
 
@@ -99,9 +99,9 @@ public class ServiziMonitoraggio {
      */
     public Map<String, Integer> getOccupazioneFasce(List<Prenotazione> elencoPrenotazioni) {
         Map<String, Integer> risultato = new LinkedHashMap<>();
-        for (FasciaOraria fascia : FasciaOraria.valori()) {
+        for (FasciaOraria fascia : FasciaOraria.values()) {
             int occupati = contaPrenotazioni(filtraPrenotazioniPerFasciaOraria(fascia, elencoPrenotazioni));
-            risultato.put(fascia.getNome(), occupati);
+            risultato.put(fascia.name(), occupati);
         }
         return risultato;
     }
