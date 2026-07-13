@@ -1,7 +1,6 @@
 package database;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;

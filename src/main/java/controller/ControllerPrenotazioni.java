@@ -45,7 +45,7 @@ public class ControllerPrenotazioni {
         List<Specializzazione> specializzazioni = registroSpecializzazioni.getSpecializzazioni();
         String[] nomi = new String[specializzazioni.size()];
         for (int i = 0; i < specializzazioni.size(); i++) {
-            nomi[i] = specializzazioni.get(i).name();
+            nomi[i] = specializzazioni.get(i).getNome();
         }
         return nomi;
     }
@@ -56,11 +56,11 @@ public class ControllerPrenotazioni {
      */
     public static List<String[]> getMedici(String nomeSpecializzazione) {
         List<String[]> medici = new ArrayList<>();
-        Specializzazione specializzazione = specializzazioneDaNome(nomeSpecializzazione);
+        RegistroSpecializzazioni registroSpecializzazioni = new RegistroSpecializzazioni();
+        Specializzazione specializzazione = registroSpecializzazioni.getSpecializzazione(nomeSpecializzazione);
         if (specializzazione == null) {
             return medici;
         }
-        RegistroSpecializzazioni registroSpecializzazioni = new RegistroSpecializzazioni();
         for (Medico m : registroSpecializzazioni.getMedici(specializzazione)) {
             medici.add(new String[]{m.getEmail(), m.getNomeCompleto()});
         }
@@ -115,17 +115,7 @@ public class ControllerPrenotazioni {
     // --- UC: Elenco prenotazioni (medico) ---
 
     /**
-     * Prenotazioni di un medico. Ogni elemento è la riga
-     * {@code {data, fascia, paziente, stato, emailPaziente}}.
-     * L'ultimo campo (email del paziente) è ad uso interno della boundary per
-     * richiamare {@link #getDatiPaziente(String)}: non va mostrato in tabella.
-     */
-    public static List<String[]> visualizzaElencoPrenotazioni(String emailMedico) {
-        return visualizzaElencoPrenotazioni(emailMedico, null, null);
-    }
-
-    /**
-     * Come {@link #visualizzaElencoPrenotazioni(String)}, filtrabile per data
+     * Come { #visualizzaElencoPrenotazioni(String)}, filtrabile per data
      * (formato {@code yyyy-MM-dd}) e/o fascia oraria. Filtri {@code null} o
      * vuoti sono ignorati.
      */
@@ -203,7 +193,7 @@ public class ControllerPrenotazioni {
         Map<Specializzazione, Integer> perSpecializzazione =
                 serviziMonitoraggio.getNumeroPrenotazioniPerSpecializzazione(elencoNelPeriodo);
         for (Map.Entry<Specializzazione, Integer> e : perSpecializzazione.entrySet()) {
-            specializzazioni.add(new String[]{e.getKey().name(), String.valueOf(e.getValue())});
+            specializzazioni.add(new String[]{e.getKey().getNome(), String.valueOf(e.getValue())});
         }
         riepilogo.put("specializzazioni", specializzazioni);
 
@@ -216,16 +206,5 @@ public class ControllerPrenotazioni {
         riepilogo.put("fasce", fasce);
 
         return riepilogo;
-    }
-
-    // --- Helper interni ---
-
-    private static Specializzazione specializzazioneDaNome(String nome) {
-        for (Specializzazione s : Specializzazione.values()) {
-            if (s.name().equals(nome)) {
-                return s;
-            }
-        }
-        return null;
     }
 }

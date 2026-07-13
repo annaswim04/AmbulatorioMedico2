@@ -3,7 +3,6 @@ package entity;
 import database.GestorePersistenza;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Registro degli utenti. Incapsula l'accesso ai dati di {@link Utente} e
@@ -27,11 +26,5 @@ public class RegistroUtenti {
 
     public List<Medico> getTuttiMedici() {
         return gestore.cercaTutti(Medico.class);
-    }
-
-    /** Medici di una data specializzazione. */
-    public List<Medico> getMediciPerSpecializzazione(Specializzazione specializzazione) {
-        return gestore.cercaPerCampi(Medico.class,
-                Map.of("specializzazione", specializzazione));
     }
 }

@@ -1,7 +1,5 @@
 package boundary;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.toedter.calendar.IDateEvaluator;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -221,10 +219,5 @@ public class FormVisualizzaDisponibilita {
     }
 
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return visualizzaDisponibilitaPanel;
-    }
+
 }

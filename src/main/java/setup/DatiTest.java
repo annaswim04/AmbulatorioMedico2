@@ -27,14 +27,29 @@ public class DatiTest {
         }
     }
 
+    /** Restituisce la specializzazione con questo nome, creandola se non esiste. */
+    private static Specializzazione trovaOCreaSpecializzazione(GestorePersistenza gestore, String nome) {
+        Specializzazione specializzazione = gestore.trovaPerId(Specializzazione.class, nome);
+        if (specializzazione == null) {
+            specializzazione = new Specializzazione(nome);
+            gestore.salva(specializzazione);
+        }
+        return specializzazione;
+    }
+
     public static void popola(GestorePersistenza gestore) {
+        // --- Specializzazioni ---
+        Specializzazione cardiologia = trovaOCreaSpecializzazione(gestore, "CARDIOLOGIA");
+        Specializzazione dermatologia = trovaOCreaSpecializzazione(gestore, "DERMATOLOGIA");
+        Specializzazione ortopedia = trovaOCreaSpecializzazione(gestore, "ORTOPEDIA");
+
         // --- Medici ---
         Medico cardiologo = new Medico("mario.rossi@ambulatorio.it", "pwd",
-                "Mario", "Rossi", "3401111111", Specializzazione.CARDIOLOGIA);
+                "Mario", "Rossi", "3401111111", cardiologia);
         Medico dermatologo = new Medico("laura.bianchi@ambulatorio.it", "pwd",
-                "Laura", "Bianchi", "3402222222", Specializzazione.DERMATOLOGIA);
+                "Laura", "Bianchi", "3402222222", dermatologia);
         Medico ortopedico = new Medico("giulio.verdi@ambulatorio.it", "pwd",
-                "Giulio", "Verdi", "3403333333", Specializzazione.ORTOPEDIA);
+                "Giulio", "Verdi", "3403333333", ortopedia);
         salvaUtenteSeAssente(gestore, cardiologo);
         salvaUtenteSeAssente(gestore, dermatologo);
         salvaUtenteSeAssente(gestore, ortopedico);

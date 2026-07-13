@@ -132,7 +132,5 @@ public class FormEffettuaPrenotazione {
     }
 
 
-    public JComponent $$$getRootComponent$$$() {
-        return effettuaPrenotazionePanel;
-    }
+
 }

@@ -35,8 +35,6 @@ public class JpaUtil {
 
     /** Da chiamare alla chiusura dell'applicazione. */
     public void chiudi() {
-        if (emf != null && emf.isOpen()) {
-            emf.close();
-        }
+        emf.close();
     }
 }

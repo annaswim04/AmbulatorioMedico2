@@ -2,8 +2,8 @@ package entity;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,8 @@ import java.util.Set;
 @DiscriminatorValue("MEDICO")
 public class Medico extends Utente {
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "specializzazione")
     private Specializzazione specializzazione;
 
     public Medico() {

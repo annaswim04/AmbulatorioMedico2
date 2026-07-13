@@ -1,8 +1,5 @@
 package boundary;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -90,10 +87,4 @@ public class FinestraPrincipale {
         finestraPrincipale.apriFinestraPrincipale();
     }
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return finestraPrincipalePanel;
-    }
 }

@@ -1,7 +1,5 @@
 package boundary;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import controller.ControllerPrenotazioni;
 
 import javax.swing.*;

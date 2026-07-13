@@ -76,10 +76,10 @@ public class ServiziMonitoraggio {
      */
     public Map<Specializzazione, Integer> getNumeroPrenotazioniPerSpecializzazione(List<Prenotazione> elencoPrenotazioni) {
         Map<Specializzazione, Integer> risultato = new LinkedHashMap<>();
-        for (Specializzazione s : Specializzazione.values()) {
-            int n = contaPrenotazioni(filtraPrenotazioniPerSpecializzazione(s, elencoPrenotazioni));
-            if (n > 0) {
-                risultato.put(s, n);
+        for (Prenotazione p : elencoPrenotazioni) {
+            Specializzazione s = p.getMedico() != null ? p.getMedico().getSpecializzazione() : null;
+            if (s != null && !risultato.containsKey(s)) {
+                risultato.put(s, contaPrenotazioni(filtraPrenotazioniPerSpecializzazione(s, elencoPrenotazioni)));
             }
         }
         return risultato;

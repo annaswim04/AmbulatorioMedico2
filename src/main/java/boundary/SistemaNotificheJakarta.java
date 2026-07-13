@@ -13,12 +13,9 @@ import java.util.Properties;
 
 /**
  * Implementazione COTS del sistema di notifiche via email con Jakarta Mail.
- *
  * Pattern: ADAPTER (adaptee/concrete) + SINGLETON. Adatta la libreria esterna
- * Jakarta Mail all'interfaccia {@link SistemaNotifiche}. Tutta la logica SMTP è
- * confinata qui: nessun'altra classe del progetto importa Jakarta Mail.
- *
- * La classe è package-private: si ottiene solo tramite {@link SistemaNotifiche#getInstance()}.
+ * Jakarta Mail all'interfaccia SistemaNotifiche.
+ * La classe è package-private.
  */
 class SistemaNotificheJakarta implements SistemaNotifiche {
 
