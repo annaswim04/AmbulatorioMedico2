@@ -1,4 +1,4 @@
-# Ambulatorio Medico
+# 🏥Ambulatorio Medico
 ***Sistema di Gestione di un Ambulatorio Medico***
 
 **Corso:** Ingegneria dei Sistemi Software - a.a. 2025/26
