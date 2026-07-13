@@ -10,7 +10,7 @@
 ---
 
 ## 👥 Membri del Team
-* **Team Lead:** <Anna De Maio>
+* **Team Lead:** Anna De Maio
 * <Celeste Sara Avvisato>
 * <Gaia Cozzolino>
 * <Alessia De Michele>
