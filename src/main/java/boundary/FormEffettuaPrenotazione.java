@@ -1,103 +1,59 @@
 package boundary;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.toedter.calendar.JDateChooser;
 import controller.ControllerPrenotazioni;
 
 import javax.swing.*;
-import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Boundary del caso d'uso "Effettua prenotazione".
- * Il paziente sceglie specializzazione, medico, data e fascia oraria libera e
- * conferma.
+ *
+ * <p>Coerente con il diagramma di sequenza UML "effettuazione prenotazione":
+ * la selezione di specializzazione, medico, giorno e fascia oraria avviene in
+ * "Visualizza disponibilità"; questa finestra riceve quei dati, <em>mostra il
+ * riepilogo della prenotazione</em> e il paziente <em>conferma</em>
+ * (→ registrazione + notifica di conferma) oppure <em>annulla</em>
+ * (→ conferma di annullamento, nessuna registrazione).</p>
+ *
+ * <p>Non essendo implementato il login, il paziente si identifica inserendo la
+ * propria email in questa finestra (semplificazione).</p>
  */
 public class FormEffettuaPrenotazione {
 
     private JPanel effettuaPrenotazionePanel;
     private JTextField campoEmailPaziente;
-    private JComboBox<String> comboSpecializzazione;
-    private JComboBox<String> comboMedico;
-    private JDateChooser selettoreData;
-    private JComboBox<String> comboFascia;
-    private JButton prenotaButton;
+    private JTextArea areaRiepilogo;
+    private JButton confermaButton;
+    private JButton annullaButton;
 
-    /** Anticipo minimo per prenotare: 48 ore (2 giorni), per rispettare il limite di annullamento. */
-    private static final int GIORNI_MINIMI_ANTICIPO = 2;
+    /** Dati della prenotazione da confermare, ricevuti da "Visualizza disponibilità". */
+    private String emailMedico;
+    private String nomeMedico;
+    private String data;
+    private String fascia;
 
-    private final SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-    /**
-     * Medici correnti della specializzazione selezionata: coppie {email, nome}.
-     */
-    private List<String[]> mediciCorrenti = new ArrayList<>();
+    private JFrame frame;
 
     public FormEffettuaPrenotazione() {
+        areaRiepilogo.setEditable(false);
+        areaRiepilogo.setLineWrap(true);
+        areaRiepilogo.setWrapStyleWord(true);
 
-
-        for (String descrizione : ControllerPrenotazioni.getSpecializzazioni()) {
-            comboSpecializzazione.addItem(descrizione);
-        }
-        comboSpecializzazione.setSelectedIndex(-1);
-
-        comboSpecializzazione.addActionListener(e -> aggiornaMedici());
-        comboMedico.addActionListener(e -> aggiornaFasce());
-        selettoreData.getDateEditor().addPropertyChangeListener("date", e -> aggiornaFasce());
-        prenotaButton.addActionListener(e -> prenota());
+        confermaButton.addActionListener(e -> conferma());
+        annullaButton.addActionListener(e -> annulla());
     }
 
-    private void aggiornaMedici() {
-        comboMedico.removeAllItems();
-        String specializzazione = (String) comboSpecializzazione.getSelectedItem();
-        if (specializzazione == null) {
-            mediciCorrenti = new ArrayList<>();
-            return;
-        }
-        mediciCorrenti = ControllerPrenotazioni.getMedici(specializzazione);
-        for (String[] medico : mediciCorrenti) {
-            comboMedico.addItem(medico[1]);
-        }
-    }
-
-    private void aggiornaFasce() {
-        comboFascia.removeAllItems();
-        String emailMedico = emailMedicoSelezionato();
-        if (emailMedico == null || selettoreData.getDate() == null) {
-            return;
-        }
-        String data = formato.format(selettoreData.getDate());
-        for (String fascia : ControllerPrenotazioni.visualizzaDisponibilita(emailMedico, data)) {
-            comboFascia.addItem(fascia);
-        }
-    }
-
-    private void prenota() {
+    /**
+     * Ramo "if paziente conferma la prenotazione": registra la prenotazione,
+     * mostra il messaggio di conferma e invia la notifica di conferma via COTS.
+     */
+    private void conferma() {
         String emailPaziente = campoEmailPaziente.getText().trim();
-        String emailMedico = emailMedicoSelezionato();
-        String fascia = (String) comboFascia.getSelectedItem();
-
-        if (emailPaziente.isEmpty() || emailMedico == null || selettoreData.getDate() == null
-                || fascia == null) {
+        if (emailPaziente.isEmpty()) {
             JOptionPane.showMessageDialog(effettuaPrenotazionePanel,
-                    "Compila tutti i campi e seleziona una fascia oraria disponibile.",
-                    "Dati mancanti", JOptionPane.WARNING_MESSAGE);
+                    "Inserisci l'email del paziente per confermare la prenotazione.",
+                    "Email mancante", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        if (anticipoInsufficiente(selettoreData.getDate())) {
-            mostraErrore("Le prenotazioni vanno effettuate con almeno 48 ore di anticipo.");
-            return;
-        }
-
-        String data = formato.format(selettoreData.getDate());
-        String nomeMedico = mediciCorrenti.get(comboMedico.getSelectedIndex())[1];
 
         int esito = ControllerPrenotazioni.effettuaPrenotazione(emailPaziente, emailMedico, data, fascia);
 
@@ -110,7 +66,7 @@ public class FormEffettuaPrenotazione {
                         "Prenotazione confermata per il " + data + " nella fascia " + fascia
                                 + ".\nÈ stata inviata una email di conferma.",
                         "Prenotazione effettuata", JOptionPane.INFORMATION_MESSAGE);
-                aggiornaFasce();
+                chiudi();
             }
             case ControllerPrenotazioni.PAZIENTE_NON_ESISTENTE -> mostraErrore(
                     "Nessun paziente registrato con questa email.");
@@ -123,14 +79,14 @@ public class FormEffettuaPrenotazione {
     }
 
     /**
-     * Email del medico selezionato in combo, o {@code null} se nessuno.
+     * Ramo "else" del diagramma: il paziente annulla al riepilogo.
+     * Mostra la conferma di annullamento; nessuna prenotazione viene registrata.
      */
-    private String emailMedicoSelezionato() {
-        int indice = comboMedico.getSelectedIndex();
-        if (indice < 0 || indice >= mediciCorrenti.size()) {
-            return null;
-        }
-        return mediciCorrenti.get(indice)[0];
+    private void annulla() {
+        JOptionPane.showMessageDialog(effettuaPrenotazionePanel,
+                "Prenotazione annullata. Nessuna prenotazione è stata registrata.",
+                "Prenotazione annullata", JOptionPane.INFORMATION_MESSAGE);
+        chiudi();
     }
 
     private void mostraErrore(String messaggio) {
@@ -138,27 +94,35 @@ public class FormEffettuaPrenotazione {
                 "Errore", JOptionPane.ERROR_MESSAGE);
     }
 
-    /**
-     * Componente a creazione manuale richiesto dal form (custom-create).
-     */
-    private void createUIComponents() {
-        selettoreData = new JDateChooser();
-        // Si può prenotare solo con almeno 48 ore di anticipo: blocca le date prima di oggi+2gg
-        Date primaDataPrenotabile = Date.from(LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO)
-                .atStartOfDay(ZoneId.systemDefault()).toInstant());
-        selettoreData.setMinSelectableDate(primaDataPrenotabile);
-    }
-
-    private boolean anticipoInsufficiente(Date data) {
-        LocalDate scelta = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return scelta.isBefore(LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO));
+    private void chiudi() {
+        if (frame != null) {
+            frame.dispose();
+        }
     }
 
     /**
-     * Crea e mostra la finestra del caso d'uso.
+     * Crea e mostra la finestra del riepilogo con i dati scelti in
+     * "Visualizza disponibilità".
      */
-    public JFrame apriFormEffettuaPrenotazione() {
-        JFrame frame = new JFrame("Effettua prenotazione");
+    public JFrame apriFormEffettuaPrenotazione(String specializzazione, String nomeMedico,
+            String emailMedico, String data, String fascia) {
+        this.nomeMedico = nomeMedico;
+        this.emailMedico = emailMedico;
+        this.data = data;
+        this.fascia = fascia;
+
+        // UML "mostra il riepilogo della prenotazione"
+        areaRiepilogo.setText(
+                "Riepilogo prenotazione\n"
+                        + "-----------------------------\n"
+                        + "Specializzazione: " + specializzazione + "\n"
+                        + "Medico:           " + nomeMedico + "\n"
+                        + "Data:             " + data + "\n"
+                        + "Fascia oraria:    " + fascia + "\n\n"
+                        + "Inserisci la tua email e conferma per registrare la prenotazione, "
+                        + "oppure annulla.");
+
+        frame = new JFrame("Effettua prenotazione");
         frame.setContentPane(effettuaPrenotazionePanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();

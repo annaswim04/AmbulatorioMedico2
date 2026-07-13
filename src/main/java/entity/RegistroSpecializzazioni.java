@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +11,19 @@ public class RegistroSpecializzazioni {
 
     private final RegistroUtenti registroUtenti = new RegistroUtenti();
 
-    /** Tutte le specializzazioni offerte dall'ambulatorio. */
+    /**
+     * Specializzazioni effettivamente offerte dall'ambulatorio, cioè quelle
+     * per cui esiste almeno un medico: mostrarne una senza medici porterebbe a
+     * un vicolo cieco nella scelta del medico.
+     */
     public List<Specializzazione> getSpecializzazioni() {
-        return Arrays.asList(Specializzazione.values());
+        List<Specializzazione> offerte = new ArrayList<>();
+        for (Specializzazione specializzazione : Specializzazione.values()) {
+            if (!getMedici(specializzazione).isEmpty()) {
+                offerte.add(specializzazione);
+            }
+        }
+        return offerte;
     }
 
     /** Medici associati a una specializzazione. */

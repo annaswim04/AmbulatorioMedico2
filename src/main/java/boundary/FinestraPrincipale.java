@@ -16,46 +16,50 @@ import java.awt.*;
 public class FinestraPrincipale {
 
     private JPanel finestraPrincipalePanel;
-    private JButton effettuaPrenotazioneButton;
     private JButton visualizzaDisponibilitaButton;
     private JButton elencoPrenotazioniButton;
     private JButton monitoraggioButton;
 
     // Riferimenti alle finestre aperte (per non duplicarle)
-    private JFrame frameEffettuaPrenotazione;
     private JFrame frameVisualizzaDisponibilita;
     private JFrame frameElencoPrenotazioni;
     private JFrame frameMonitoraggio;
 
     public FinestraPrincipale() {
-        effettuaPrenotazioneButton.addActionListener(e -> {
-            if (nonVisibile(frameEffettuaPrenotazione)) {
-                frameEffettuaPrenotazione = new FormEffettuaPrenotazione().apriFormEffettuaPrenotazione();
+        // La prenotazione si avvia da "Visualizza disponibilità" dopo aver
+        // scelto specializzazione, medico, data e fascia oraria.
+        visualizzaDisponibilitaButton.addActionListener(e -> apri(
+                () -> nonVisibile(frameVisualizzaDisponibilita),
+                () -> frameVisualizzaDisponibilita = new FormVisualizzaDisponibilita().apriFormVisualizzaDisponibilita(),
+                () -> frameVisualizzaDisponibilita.toFront()));
+        elencoPrenotazioniButton.addActionListener(e -> apri(
+                () -> nonVisibile(frameElencoPrenotazioni),
+                () -> frameElencoPrenotazioni = new FormElencoPrenotazioniMedico().apriFormElencoPrenotazioniMedico(),
+                () -> frameElencoPrenotazioni.toFront()));
+        monitoraggioButton.addActionListener(e -> apri(
+                () -> nonVisibile(frameMonitoraggio),
+                () -> frameMonitoraggio = new FormMonitoraggio().apriFormMonitoraggio(),
+                () -> frameMonitoraggio.toFront()));
+    }
+
+    /**
+     * Apre la finestra (o la porta in primo piano se già aperta) mostrando in un
+     * dialog qualunque eccezione, così un errore nella costruzione della finestra
+     * non resta silenzioso.
+     */
+    private void apri(java.util.function.BooleanSupplier daAprire, Runnable apertura, Runnable inPrimoPiano) {
+        try {
+            if (daAprire.getAsBoolean()) {
+                apertura.run();
             } else {
-                frameEffettuaPrenotazione.toFront();
+                inPrimoPiano.run();
             }
-        });
-        visualizzaDisponibilitaButton.addActionListener(e -> {
-            if (nonVisibile(frameVisualizzaDisponibilita)) {
-                frameVisualizzaDisponibilita = new FormVisualizzaDisponibilita().apriFormVisualizzaDisponibilita();
-            } else {
-                frameVisualizzaDisponibilita.toFront();
-            }
-        });
-        elencoPrenotazioniButton.addActionListener(e -> {
-            if (nonVisibile(frameElencoPrenotazioni)) {
-                frameElencoPrenotazioni = new FormElencoPrenotazioniMedico().apriFormElencoPrenotazioniMedico();
-            } else {
-                frameElencoPrenotazioni.toFront();
-            }
-        });
-        monitoraggioButton.addActionListener(e -> {
-            if (nonVisibile(frameMonitoraggio)) {
-                frameMonitoraggio = new FormMonitoraggio().apriFormMonitoraggio();
-            } else {
-                frameMonitoraggio.toFront();
-            }
-        });
+        } catch (Throwable t) {
+            t.printStackTrace();
+            JOptionPane.showMessageDialog(finestraPrincipalePanel,
+                    t.getClass().getSimpleName() + ": " + t.getMessage(),
+                    "Errore nell'apertura della finestra", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private boolean nonVisibile(JFrame frame) {

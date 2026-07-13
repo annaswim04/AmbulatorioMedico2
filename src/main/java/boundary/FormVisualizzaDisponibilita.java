@@ -100,6 +100,7 @@ public class FormVisualizzaDisponibilita {
     public FormVisualizzaDisponibilita() {
 
         listaFasce.setModel(modelloFasce);
+        listaFasce.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         for (String descrizione : ControllerPrenotazioni.getSpecializzazioni()) {
             comboSpecializzazione.addItem(descrizione);
@@ -111,8 +112,32 @@ public class FormVisualizzaDisponibilita {
         comboSpecializzazione.addActionListener(e -> aggiornaMedici());
         comboMedico.addActionListener(e -> aggiornaDateDisponibili());
         mostraButton.addActionListener(e -> mostraDisponibilita());
-        prenotaButton.addActionListener(
-                e -> new FormEffettuaPrenotazione().apriFormEffettuaPrenotazione());
+        prenotaButton.addActionListener(e -> avviaPrenotazione());
+    }
+
+    /**
+     * Extension point UML "il paziente sceglie di effettuare la prenotazione":
+     * con specializzazione, medico, data e fascia selezionati apre la finestra
+     * di riepilogo/conferma passandole i dati scelti.
+     */
+    private void avviaPrenotazione() {
+        int indice = comboMedico.getSelectedIndex();
+        String fascia = (String) listaFasce.getSelectedValue();
+        if (indice < 0 || indice >= mediciCorrenti.size() || selettoreData.getDate() == null
+                || fascia == null) {
+            JOptionPane.showMessageDialog(visualizzaDisponibilitaPanel,
+                    "Seleziona medico, data e una fascia oraria libera dall'elenco.",
+                    "Dati mancanti", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String specializzazione = (String) comboSpecializzazione.getSelectedItem();
+        String nomeMedico = mediciCorrenti.get(indice)[1];
+        String emailMedico = mediciCorrenti.get(indice)[0];
+        String data = formato.format(selettoreData.getDate());
+
+        new FormEffettuaPrenotazione().apriFormEffettuaPrenotazione(
+                specializzazione, nomeMedico, emailMedico, data, fascia);
     }
 
     private void aggiornaMedici() {
