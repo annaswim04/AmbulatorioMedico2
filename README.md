@@ -3,7 +3,7 @@
 
 **Corso:** Ingegneria dei Sistemi Software - a.a. 2025/26
 
-**Docente:** <Prof. Domenico Amalfitano>
+**Docente:** Prof. Domenico Amalfitano
 
 **Corso di Laurea:** Ingegneria Informatica
 
