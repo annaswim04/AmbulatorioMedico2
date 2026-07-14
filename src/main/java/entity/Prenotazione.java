@@ -11,9 +11,9 @@ import jakarta.persistence.ManyToOne;
 
 /**
  * Prenotazione di una visita: associa un {@link Paziente} a un {@link Medico}
- * in una certa data e slot orario, con uno stato.
+ * in una certa data e {@link FasciaOraria fascia oraria}, con uno stato.
  *
- * Lo stato è un enum {@link StatoPrenotazione} persistito come stringa.
+ * Sia la fascia oraria sia lo stato sono enum persistiti come stringa.
  */
 @Entity
 public class Prenotazione {
@@ -23,7 +23,9 @@ public class Prenotazione {
     private Long id;
 
     private String data;   // formato "yyyy-MM-dd"
-    private String orario; // formato "HH:mm"
+
+    @Enumerated(EnumType.STRING)
+    private FasciaOraria fascia;
 
     @Enumerated(EnumType.STRING)
     private StatoPrenotazione stato;
@@ -39,9 +41,9 @@ public class Prenotazione {
     public Prenotazione() {
     }
 
-    public Prenotazione(String data, String orario, Paziente paziente, Medico medico) {
+    public Prenotazione(String data, FasciaOraria fascia, Paziente paziente, Medico medico) {
         this.data = data;
-        this.orario = orario;
+        this.fascia = fascia;
         this.paziente = paziente;
         this.medico = medico;
         this.stato = StatoPrenotazione.PRENOTATO;
@@ -61,12 +63,12 @@ public class Prenotazione {
         this.data = data;
     }
 
-    public String getOrario() {
-        return orario;
+    public FasciaOraria getFascia() {
+        return fascia;
     }
 
-    public void setOrario(String orario) {
-        this.orario = orario;
+    public void setFascia(FasciaOraria fascia) {
+        this.fascia = fascia;
     }
 
     public StatoPrenotazione getStato() {
@@ -95,7 +97,7 @@ public class Prenotazione {
 
     @Override
     public String toString() {
-        return "Prenotazione{id=" + id + ", data='" + data + "', orario='" + orario
-                + "', stato=" + stato + "}";
+        return "Prenotazione{id=" + id + ", data='" + data + "', fascia=" + fascia
+                + ", stato=" + stato + "}";
     }
 }

@@ -70,10 +70,10 @@ public class DatiTest {
 
         // --- Prenotazioni di esempio (per elenco medico e monitoraggio) ---
         if (gestore.cercaTutti(Prenotazione.class).isEmpty()) {
-            Prenotazione p1 = new Prenotazione("2026-07-15", FasciaOraria.MATTINA.name(), anna, cardiologo);
-            Prenotazione p2 = new Prenotazione("2026-07-15", FasciaOraria.PRIMO_POMERIGGIO.name(), luca, cardiologo);
-            Prenotazione p3 = new Prenotazione("2026-07-16", FasciaOraria.MATTINA.name(), anna, dermatologo);
-            Prenotazione p4 = new Prenotazione("2026-07-16", FasciaOraria.TARDO_POMERIGGIO.name(), luca, ortopedico);
+            Prenotazione p1 = new Prenotazione("2026-07-15", FasciaOraria.MATTINA, anna, cardiologo);
+            Prenotazione p2 = new Prenotazione("2026-07-15", FasciaOraria.PRIMO_POMERIGGIO, luca, cardiologo);
+            Prenotazione p3 = new Prenotazione("2026-07-16", FasciaOraria.MATTINA, anna, dermatologo);
+            Prenotazione p4 = new Prenotazione("2026-07-16", FasciaOraria.TARDO_POMERIGGIO, luca, ortopedico);
             p4.setStato(StatoPrenotazione.ANNULLATO); // un annullamento per il monitoraggio
             for (Prenotazione p : List.of(p1, p2, p3, p4)) {
                 gestore.salva(p);

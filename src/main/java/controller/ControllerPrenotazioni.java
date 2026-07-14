@@ -130,8 +130,9 @@ public class ControllerPrenotazioni {
         for (Prenotazione p : registroPrenotazioni.getPrenotazioniPerMedico(medico, filtroData, filtroFascia)) {
             String paziente = p.getPaziente() != null ? p.getPaziente().getNomeCompleto() : "-";
             String emailPaziente = p.getPaziente() != null ? p.getPaziente().getEmail() : "";
+            String fascia = p.getFascia() != null ? p.getFascia().name() : "-";
             righe.add(new String[]{
-                    p.getData(), p.getOrario(), paziente, p.getStato().name(), emailPaziente
+                    p.getData(), fascia, paziente, p.getStato().name(), emailPaziente
             });
         }
         return righe;

@@ -41,12 +41,12 @@ class SistemaNotificheJakarta implements SistemaNotifiche {
 
     @Override
     public boolean inviaConfermaPrenotazione(String destinatario, String nomeMedico,
-                                             String data, String orario) {
+                                             String data, String fascia) {
         String corpo = "Gentile paziente,\n\n"
                 + "la sua prenotazione è confermata.\n"
                 + "Medico: " + nomeMedico + "\n"
                 + "Data: " + data + "\n"
-                + "Orario: " + orario + "\n\n"
+                + "Fascia oraria: " + fascia + "\n\n"
                 + "Grazie per aver scelto il nostro ambulatorio.";
         return inviaEmail(destinatario, OGGETTO_CONFERMA, corpo);
     }

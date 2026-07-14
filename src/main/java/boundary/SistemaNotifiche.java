@@ -12,7 +12,7 @@ public interface SistemaNotifiche {
 
     /** Invia al paziente la conferma di una prenotazione. */
     boolean inviaConfermaPrenotazione(String destinatario, String nomeMedico,
-                                      String data, String orario);
+                                      String data, String fascia);
 
     /** Ottiene l'istanza del sistema di notifiche configurato. */
     static SistemaNotifiche getInstance() {

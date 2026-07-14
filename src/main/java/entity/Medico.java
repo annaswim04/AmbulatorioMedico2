@@ -46,9 +46,9 @@ public class Medico extends Utente {
      *
      * @param fasceOccupatePerData fasce occupate per ciascuna data (yyyy-MM-dd) da valutare
      */
-    public List<DisponibilitaMedico> getDateDisponibili(Map<String, Set<String>> fasceOccupatePerData) {
+    public List<DisponibilitaMedico> getDateDisponibili(Map<String, Set<FasciaOraria>> fasceOccupatePerData) {
         List<DisponibilitaMedico> dateDisponibili = new ArrayList<>();
-        for (Map.Entry<String, Set<String>> e : fasceOccupatePerData.entrySet()) {
+        for (Map.Entry<String, Set<FasciaOraria>> e : fasceOccupatePerData.entrySet()) {
             DisponibilitaMedico disponibilita = new DisponibilitaMedico(this, e.getKey(), e.getValue());
             if (disponibilita.isDisponibile()) {
                 dateDisponibili.add(disponibilita);

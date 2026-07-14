@@ -36,7 +36,7 @@ public class RegistroPrenotazioni {
      * disponibilità della fascia oraria.
      */
     public int salvaPrenotazione(String emailPaziente, String emailMedico,
-                                 String data, String orario) {
+                                 String data, String fascia) {
         Paziente paziente = registroUtenti.getPaziente(emailPaziente);
         if (paziente == null) {
             return PAZIENTE_NON_ESISTENTE;
@@ -47,23 +47,41 @@ public class RegistroPrenotazioni {
             return MEDICO_NON_ESISTENTE;
         }
 
-        if (getFasceOccupate(medico, data).contains(orario)) {
+        FasciaOraria fasciaOraria = parseFascia(fascia);
+        if (fasciaOraria == null || getFasceOccupate(medico, data).contains(fasciaOraria)) {
             return FASCIA_NON_DISPONIBILE;
         }
 
-        Prenotazione prenotazione = new Prenotazione(data, orario, paziente, medico);
+        Prenotazione prenotazione = new Prenotazione(data, fasciaOraria, paziente, medico);
         boolean salvato = gestore.salva(prenotazione);
         return salvato ? SUCCESSO : ERRORE_DB;
     }
 
+    /**
+     * Converte il nome di una fascia oraria nel relativo valore enum.
+     * Restituisce {@code null} se la stringa è nulla, vuota o non riconosciuta:
+     * la conversione dei tipi semplici provenienti dalla boundary avviene qui,
+     * nel livello entity, così controller e boundary continuano a usare solo String.
+     */
+    private FasciaOraria parseFascia(String fascia) {
+        if (fascia == null || fascia.isEmpty()) {
+            return null;
+        }
+        try {
+            return FasciaOraria.valueOf(fascia);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     /** Fasce orarie già occupate (stato PRENOTATO) di un medico in una data. */
-    public Set<String> getFasceOccupate(Medico medico, String data) {
+    public Set<FasciaOraria> getFasceOccupate(Medico medico, String data) {
         List<Prenotazione> prenotazioni = gestore.cercaPerCampi(Prenotazione.class,
                 Map.of("medico", medico, "data", data));
-        Set<String> occupate = new HashSet<>();
+        Set<FasciaOraria> occupate = new HashSet<>();
         for (Prenotazione p : prenotazioni) {
             if (p.getStato() == StatoPrenotazione.PRENOTATO) {
-                occupate.add(p.getOrario());
+                occupate.add(p.getFascia());
             }
         }
         return occupate;
@@ -80,7 +98,7 @@ public class RegistroPrenotazioni {
      * almeno una fascia oraria libera.
      */
     public List<DisponibilitaMedico> getDateDisponibili(Medico medico) {
-        Map<String, Set<String>> fasceOccupatePerData = new LinkedHashMap<>();
+        Map<String, Set<FasciaOraria>> fasceOccupatePerData = new LinkedHashMap<>();
         LocalDate inizio = LocalDate.now().plusDays(GIORNI_MINIMI_ANTICIPO);
         LocalDate fine = LocalDate.now().plusDays(GIORNI_MASSIMI_ANTICIPO);
         for (LocalDate d = inizio; !d.isAfter(fine); d = d.plusDays(1)) {
@@ -105,8 +123,9 @@ public class RegistroPrenotazioni {
         if (data != null && !data.isEmpty()) {
             campi.put("data", data);
         }
-        if (fascia != null && !fascia.isEmpty()) {
-            campi.put("orario", fascia);
+        FasciaOraria fasciaOraria = parseFascia(fascia);
+        if (fasciaOraria != null) {
+            campi.put("fascia", fasciaOraria);
         }
         return gestore.cercaPerCampi(Prenotazione.class, campi);
     }

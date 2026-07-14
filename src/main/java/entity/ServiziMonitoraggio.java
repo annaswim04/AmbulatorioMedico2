@@ -89,7 +89,7 @@ public class ServiziMonitoraggio {
     public List<Prenotazione> filtraPrenotazioniPerFasciaOraria(FasciaOraria fascia,
                                                                   List<Prenotazione> elencoPrenotazioni) {
         return elencoPrenotazioni.stream()
-                .filter(p -> fascia.name().equals(p.getOrario()))
+                .filter(p -> fascia == p.getFascia())
                 .collect(Collectors.toList());
     }
 

@@ -19,13 +19,13 @@ public class DisponibilitaMedico {
     /**
      * @param medico         medico di riferimento
      * @param data           data (yyyy-MM-dd)
-     * @param fasceOccupate  orari delle fasce già prenotate per quel medico in quella data
+     * @param fasceOccupate  fasce già prenotate per quel medico in quella data
      */
-    public DisponibilitaMedico(Medico medico, String data, Set<String> fasceOccupate) {
+    public DisponibilitaMedico(Medico medico, String data, Set<FasciaOraria> fasceOccupate) {
         this.medico = medico;
         this.data = data;
         for (FasciaOraria fascia : FasciaOraria.values()) {
-            if (!fasceOccupate.contains(fascia.name())) {
+            if (!fasceOccupate.contains(fascia)) {
                 fasceDisponibili.add(fascia);
             }
         }
