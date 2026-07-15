@@ -80,6 +80,7 @@ public class FormMonitoraggio {
         for (String[] riga : riepilogo.get("fasce")) {
             modelloFasce.addRow(riga);
         }
+
     }
 
     /**
