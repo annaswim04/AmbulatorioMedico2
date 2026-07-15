@@ -51,7 +51,7 @@ public class FormElencoPrenotazioniMedico {
         }
         comboFiltroFascia.setSelectedIndex(0);
 
-        mostraButton.addActionListener(_ -> caricaPrenotazioni());
+        mostraButton.addActionListener(e -> caricaPrenotazioni());
         tabella.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 mostraDatiPaziente();
