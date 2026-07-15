@@ -4,7 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 /**
- * Paziente dell'ambulatorio. Sottotipo di {@link Utente}.
+ * Paziente dell'ambulatorio. Sottotipo di Utente.
  */
 @Entity
 @DiscriminatorValue("PAZIENTE")

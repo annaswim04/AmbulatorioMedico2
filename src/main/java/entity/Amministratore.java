@@ -4,7 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 /**
- * Amministratore dell'ambulatorio. Sottotipo di {@link Utente}.
+ * Amministratore dell'ambulatorio. Sottotipo di Utente.
  * Ha accesso alle funzioni di monitoraggio.
  */
 @Entity

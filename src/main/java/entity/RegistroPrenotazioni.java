@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * Registro delle prenotazioni. Contiene la logica applicativa di salvataggio e
- * ricerca delle prenotazioni, appoggiandosi a {@link GestorePersistenza}.
+ * ricerca delle prenotazioni, appoggiandosi a GestorePersistenza.
  * Livello entity: nessuna dipendenza da boundary/controller.
  */
 public class RegistroPrenotazioni {
@@ -59,7 +59,7 @@ public class RegistroPrenotazioni {
 
     /**
      * Converte il nome di una fascia oraria nel relativo valore enum.
-     * Restituisce {@code null} se la stringa è nulla, vuota o non riconosciuta:
+     * Restituisce null se la stringa è nulla, vuota o non riconosciuta:
      * la conversione dei tipi semplici provenienti dalla boundary avviene qui,
      * nel livello entity, così controller e boundary continuano a usare solo String.
      */
@@ -93,8 +93,8 @@ public class RegistroPrenotazioni {
     }
 
     /**
-     * Date, nell'orizzonte di prenotazione (da {@value #GIORNI_MINIMI_ANTICIPO}
-     * a {@value #GIORNI_MASSIMI_ANTICIPO} giorni da oggi), in cui il medico ha
+     * Date, nell'orizzonte di prenotazione (da #GIORNI_MINIMI_ANTICIPO
+     * a GIORNI_MASSIMI_ANTICIPO giorni da oggi), in cui il medico ha
      * almeno una fascia oraria libera.
      */
     public List<DisponibilitaMedico> getDateDisponibili(Medico medico) {
@@ -108,14 +108,10 @@ public class RegistroPrenotazioni {
         return medico.getDateDisponibili(fasceOccupatePerData);
     }
 
-    /** Tutte le prenotazioni di un medico (UC elenco prenotazioni medico). */
-    public List<Prenotazione> getPrenotazioniPerMedico(Medico medico) {
-        return getPrenotazioniPerMedico(medico, null, null);
-    }
 
     /**
      * Prenotazioni di un medico, filtrabili per data e/o fascia oraria.
-     * Filtri {@code null} o vuoti vengono ignorati.
+     * Filtri null o vuoti vengono ignorati.
      */
     public List<Prenotazione> getPrenotazioniPerMedico(Medico medico, String data, String fascia) {
         Map<String, Object> campi = new HashMap<>();

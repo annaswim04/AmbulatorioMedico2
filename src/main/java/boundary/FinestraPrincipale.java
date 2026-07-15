@@ -7,7 +7,7 @@ import java.awt.*;
  * Finestra principale dell'applicazione: menu di accesso ai quattro casi d'uso
  * implementati. È il punto di ingresso della GUI Swing.
  *
- * <p>La UI è definita nel file {@code FinestraPrincipale.form} (GUI Designer di
+ * <p>La UI è definita nel file FinestraPrincipale.form (GUI Designer di
  * IntelliJ): i campi sotto sono agganciati per nome ai componenti del form.</p>
  */
 public class FinestraPrincipale {
@@ -64,7 +64,7 @@ public class FinestraPrincipale {
     }
 
     /**
-     * Crea e mostra la finestra principale. Restituisce il {@link JFrame} creato.
+     * Crea e mostra la finestra principale. Restituisce il JFrame creato.
      */
     public JFrame apriFinestraPrincipale() {
         JFrame frame = new JFrame("Ambulatorio Medico");

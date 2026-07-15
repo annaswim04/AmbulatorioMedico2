@@ -70,8 +70,6 @@ public class FormEffettuaPrenotazione {
             }
             case ControllerPrenotazioni.PAZIENTE_NON_ESISTENTE -> mostraErrore(
                     "Nessun paziente registrato con questa email.");
-            case ControllerPrenotazioni.MEDICO_NON_ESISTENTE -> mostraErrore(
-                    "Medico non trovato.");
             case ControllerPrenotazioni.FASCIA_NON_DISPONIBILE -> mostraErrore(
                     "La fascia oraria selezionata non è più disponibile.");
             default -> mostraErrore("Errore durante il salvataggio della prenotazione.");

@@ -8,7 +8,7 @@ import jakarta.persistence.InheritanceType;
 
 /**
  * Utente generico del sistema. Superclasse della gerarchia
- * {@link Paziente} / {@link Medico} / {@link Amministratore}.
+ * Paziente / Medico / Amministratore.
  *
  * Mappata con strategia SINGLE_TABLE: un'unica tabella "Utente" con una colonna
  * discriminante "tipo_utente" che distingue il ruolo.

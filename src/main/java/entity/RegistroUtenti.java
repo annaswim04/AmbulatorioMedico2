@@ -5,8 +5,8 @@ import database.GestorePersistenza;
 import java.util.List;
 
 /**
- * Registro degli utenti. Incapsula l'accesso ai dati di {@link Utente} e
- * sottotipi tramite {@link GestorePersistenza}. Appartiene al livello entity.
+ * Registro degli utenti. Incapsula l'accesso ai dati di Utente e
+ * sottotipi tramite GestorePersistenza. Appartiene al livello entity.
  */
 public class RegistroUtenti {
 

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Medico dell'ambulatorio. Sottotipo di {@link Utente}, caratterizzato dalla
+ * Medico dell'ambulatorio. Sottotipo di Utente, caratterizzato dalla
  * propria {@link Specializzazione}.
  */
 @Entity

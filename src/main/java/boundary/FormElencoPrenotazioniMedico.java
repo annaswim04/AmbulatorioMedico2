@@ -12,10 +12,9 @@ import java.util.List;
  * Boundary del caso d'uso "Visualizza elenco prenotazioni (medico)".
  * Il medico consulta l'elenco delle visite prenotate presso il proprio ambulatorio
  * e, selezionando una riga, visualizza i dati anagrafici del paziente corrispondente.
- *
- * <p>La UI è definita in {@code FormElencoPrenotazioniMedico.form}. La boundary
- * comunica solo con il {@link ControllerPrenotazioni} e riceve le righe come
- * array di stringhe: non importa mai il package {@code entity}.</p>
+ * La UI è definita in FormElencoPrenotazioniMedico.form. La boundary
+ * comunica solo con il ControllerPrenotazioni e riceve le righe come
+ * array di stringhe. 
  */
 public class FormElencoPrenotazioniMedico {
 
@@ -26,7 +25,6 @@ public class FormElencoPrenotazioniMedico {
     private JComboBox<String> comboFiltroFascia;
     // Bind del .form: avvolge "tabella" e abilita lo scroll con molte prenotazioni.
     // Non richiamato direttamente in codice: il collegamento avviene per riflessione dal form loader.
-    @SuppressWarnings("unused")
     private JScrollPane ScrollPane;
     private JTable tabella;
 
@@ -61,6 +59,8 @@ public class FormElencoPrenotazioniMedico {
         });
     }
 
+
+
     private void caricaPrenotazioni() {
         modello.setRowCount(0);
         prenotazioniCorrenti.clear();
@@ -90,6 +90,8 @@ public class FormElencoPrenotazioniMedico {
         }
     }
 
+
+
     /**
      * Mostra i dati del paziente associato alla riga selezionata in tabella.
      */
@@ -116,8 +118,10 @@ public class FormElencoPrenotazioniMedico {
                 "Dati paziente", JOptionPane.INFORMATION_MESSAGE);
     }
 
+
+
     /**
-     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     * Crea e mostra la finestra del caso d'uso. Restituisce il JFrame creato.
      */
     public JFrame apriFormElencoPrenotazioniMedico() {
         JFrame frame = new JFrame("Elenco prenotazioni - Medico");

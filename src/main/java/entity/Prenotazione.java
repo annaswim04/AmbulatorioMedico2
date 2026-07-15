@@ -10,8 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 /**
- * Prenotazione di una visita: associa un {@link Paziente} a un {@link Medico}
- * in una certa data e {@link FasciaOraria fascia oraria}, con uno stato.
+ * Prenotazione di una visita: associa un Paziente a un Medico
+ * in una certa data e fascia oraria, con uno stato.
  *
  * Sia la fascia oraria sia lo stato sono enum persistiti come stringa.
  */

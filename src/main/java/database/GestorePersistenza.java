@@ -9,9 +9,9 @@ import java.util.Map;
 /**
  * Facade generica sul livello di persistenza JPA.
  *
- * Pattern: FACADE. Nasconde ai {@code Registro*} del livello entity i dettagli
+ * Pattern: FACADE. Nasconde al livello entity i dettagli
  * di JPA/Hibernate (EntityManager, transazioni, JPQL), esponendo operazioni
- * CRUD generiche valide per qualsiasi @Entity. È l'UNICA porta verso il DB
+ * CRUD generiche valide per qualsiasi Entity. È l'UNICA porta verso il DB
  * usata dal dominio.
  */
 public class GestorePersistenza {

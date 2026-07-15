@@ -20,14 +20,13 @@ import java.util.Map;
 /**
  * Controller di facciata per i casi d'uso legati alle prenotazioni.
  *
- * <p>Pattern: FACADE. : orchestra i {@code Registro*} del livello entity e non
- * contiene né codice Swing né accessi diretti al DB.</p>
+ * Pattern: FACADE. Gestisce il livello entity e non
+ * contiene né codice Swing né accessi diretti al DB.
  *
- * <p>Per rispettare il flusso BCED, i metodi <b>non espongono oggetti di dominio</b>:
+ * Per rispettare il flusso BCED, i metodi non espongono oggetti di dominio:
  * ricevono e restituiscono solo tipi semplici e strutture di stringhe
- * ({@code String}, {@code String[]}, {@code List<String[]>}, {@code Map}). È il
- * controller a tradurre le entity in questi dati, così la boundary non importa
- * mai il package {@code entity}.</p>
+ * (String, String[], List<String[]>, Map). È il controller a tradurre le entity in questi dati,
+ * così la boundary non importa mai il package entity.
  */
 public class ControllerPrenotazioni {
 
@@ -52,7 +51,7 @@ public class ControllerPrenotazioni {
 
     /**
      * Medici di una specializzazione (indicata per nome).
-     * Ogni elemento è la coppia {@code {email, nomeCompleto}}.
+     * Ogni elemento è la coppia {email, nomeCompleto}.
      */
     public static List<String[]> getMedici(String nomeSpecializzazione) {
         List<String[]> medici = new ArrayList<>();
@@ -115,9 +114,7 @@ public class ControllerPrenotazioni {
     // --- UC: Elenco prenotazioni (medico) ---
 
     /**
-     * Come { #visualizzaElencoPrenotazioni(String)}, filtrabile per data
-     * (formato {@code yyyy-MM-dd}) e/o fascia oraria. Filtri {@code null} o
-     * vuoti sono ignorati.
+     * Filtrabile per data (formato yyyy-MM-dd) e/o fascia oraria. Filtri null o vuoti sono ignorati.
      */
     public static List<String[]> visualizzaElencoPrenotazioni(String emailMedico, String filtroData, String filtroFascia) {
         List<String[]> righe = new ArrayList<>();
@@ -151,8 +148,8 @@ public class ControllerPrenotazioni {
     // --- UC: Visualizza dati paziente (dal dettaglio elenco prenotazioni) ---
 
     /**
-     * Dati anagrafici di un paziente, come riga {@code {email, nome, cognome, recapito}}.
-     * Restituisce {@code null} se il paziente non esiste.
+     * Dati anagrafici di un paziente, come riga {email, nome, cognome, recapito}.
+     * Restituisce null se il paziente non esiste.
      */
     public static String[] getDatiPaziente(String emailPaziente) {
         RegistroUtenti registroUtenti = new RegistroUtenti();
