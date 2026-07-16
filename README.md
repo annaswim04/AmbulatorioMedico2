@@ -33,4 +33,4 @@ Le funzionalità principali includono:
 ## 📂 Struttura del Repository
 Il progetto è organizzato nelle seguenti directory:
 * **Code/**: La directory contenente il progetto Java (Maven, `AmbulatorioMedico2`) con l'implementazione delle funzionalità richieste, organizzato secondo i package `boundary`, `controller`, `entity`, `database`, `setup`.
-* **VP/**: Il file `.xmi` del progetto sviluppato tramite Visual Paradigm (diagrammi delle classi, dei casi d'uso, di sequenza e a stati), fonte di verità del modello di dominio.
+* **VisualParadigm/**: Il file `.vpp` del progetto sviluppato tramite Visual Paradigm (diagrammi delle classi, dei casi d'uso, di sequenza e a stati), fonte di verità del modello di dominio.
