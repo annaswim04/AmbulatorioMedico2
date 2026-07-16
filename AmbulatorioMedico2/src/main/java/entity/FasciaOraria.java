@@ -1,0 +1,14 @@
+package entity;
+
+/**
+ * Fascia oraria prenotabile dal paziente, in cui è suddivisa la giornata
+ * dell'ambulatorio.
+ *
+ * La fascia è l'unità prenotabile: per un dato medico e una data, ciascuna
+ * fascia può essere libera oppure occupata da una prenotazione.
+ */
+public enum FasciaOraria {
+    MATTINA,
+    PRIMO_POMERIGGIO,
+    TARDO_POMERIGGIO
+}
