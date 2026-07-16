@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Disponibilità di un medico in una data. Oggetto di dominio (non persistito):
- * si ottiene dall'elenco delle fasce orarie della giornata
- * ({@link FasciaOraria#values()}) escludendo quelle già occupate da una
- * prenotazione.
+ * Disponibilità di un medico in una data. Mostra le fasce orarie della giornata
+ * escludendo quelle già occupate da una prenotazione.
  */
 public class DisponibilitaMedico {
 
@@ -17,9 +15,9 @@ public class DisponibilitaMedico {
     private final List<FasciaOraria> fasceDisponibili = new ArrayList<>();
 
     /**
-     * @param medico         medico di riferimento
-     * @param data           data (yyyy-MM-dd)
-     * @param fasceOccupate  fasce già prenotate per quel medico in quella data
+     *  medico -> medico di riferimento
+     *  data -> data (yyyy-MM-dd)
+     *  fasceOccupate -> fasce già prenotate per quel medico in quella data
      */
     public DisponibilitaMedico(Medico medico, String data, Set<FasciaOraria> fasceOccupate) {
         this.medico = medico;
@@ -39,7 +37,7 @@ public class DisponibilitaMedico {
         return data;
     }
 
-    /** Fasce orarie libere per la prenotazione (operazione getFasceOrarieDisponibili). */
+    /** Fasce orarie libere per la prenotazione. */
     public List<FasciaOraria> getFasceOrarieDisponibili() {
         return fasceDisponibili;
     }

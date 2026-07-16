@@ -21,11 +21,8 @@ import java.util.Set;
  * Boundary del caso d'uso "Visualizza disponibilità".
  * L'utente sceglie una specializzazione, un medico associato e una data;
  * il sistema mostra le fasce orarie libere di quel medico.
- *
- * <p>La UI è definita in {@code FormVisualizzaDisponibilita.form}. La boundary
- * comunica solo con il {@link ControllerPrenotazioni} e riceve dati come
- * stringhe: non importa mai il package {@code entity}.</p>
  */
+
 public class FormVisualizzaDisponibilita {
 
     private JPanel visualizzaDisponibilitaPanel;
@@ -46,13 +43,12 @@ public class FormVisualizzaDisponibilita {
     private List<String[]> mediciCorrenti = new ArrayList<>();
 
     /**
-     * Date (yyyy-MM-dd) in cui il medico selezionato ha almeno una fascia
-     * libera: pilota {@link #dataEvaluator}, che disabilita le altre date nel
-     * calendario.
+     * Date in cui il medico selezionato ha almeno una fascia libera:
+     * dataEvaluator disabilita le altre date nel calendario.
      */
     private final Set<String> dateDisponibili = new HashSet<>();
 
-    /** Disabilita nel calendario le date assenti da {@link #dateDisponibili}. */
+    /** Disabilita nel calendario le date assenti da dateDisponibili. */
     private final IDateEvaluator dataEvaluator = new IDateEvaluator() {
         @Override
         public boolean isSpecial(Date date) {
@@ -114,7 +110,7 @@ public class FormVisualizzaDisponibilita {
     }
 
     /**
-     * Extension point UML "il paziente sceglie di effettuare la prenotazione":
+     * Extension point "il paziente sceglie di effettuare la prenotazione":
      * con specializzazione, medico, data e fascia selezionati apre la finestra
      * di riepilogo/conferma passandole i dati scelti.
      */
@@ -153,8 +149,7 @@ public class FormVisualizzaDisponibilita {
     }
 
     /**
-     * Ricalcola le date disponibili del medico selezionato (UC: Medico
-     * information expert di DisponibilitàMedico) e aggiorna il calendario,
+     * Ricalcola le date disponibili del medico selezionato e aggiorna il calendario,
      * disabilitando le date senza alcuna fascia libera.
      */
     private void aggiornaDateDisponibili() {
@@ -194,9 +189,7 @@ public class FormVisualizzaDisponibilita {
         labelEsito.setText("  " + fasce.length + " fasce libere il " + data + ".");
     }
 
-    /**
-     * Componente a creazione manuale richiesto dal form (custom-create).
-     */
+
     private void createUIComponents() {
         selettoreData = new JDateChooser();
         // Coerente col limite di prenotazione: solo date da oggi + 48 ore in poi
@@ -206,7 +199,7 @@ public class FormVisualizzaDisponibilita {
     }
 
     /**
-     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     * Crea e mostra la finestra del caso d'uso. Restituisce il JFrame creato.
      */
     public JFrame apriFormVisualizzaDisponibilita() {
         JFrame frame = new JFrame("Visualizza disponibilità");

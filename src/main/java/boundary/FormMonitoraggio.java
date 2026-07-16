@@ -14,11 +14,8 @@ import java.util.Map;
  * Boundary del caso d'uso "Monitoraggio ambulatorio" (amministratore).
  * Mostra, per un intervallo di tempo: numero di visite prenotate, numero di
  * annullamenti, distribuzione per specializzazione e occupazione delle fasce orarie.
- *
- * <p>La UI è definita in {@code FormMonitoraggio.form}. La boundary comunica solo
- * con il {@link ControllerPrenotazioni} e riceve il riepilogo come mappa di
- * stringhe: non importa mai il package {@code entity}.</p>
  */
+
 public class FormMonitoraggio {
 
     private JPanel monitoraggioPanel;
@@ -83,16 +80,14 @@ public class FormMonitoraggio {
 
     }
 
-    /**
-     * Componenti a creazione manuale richiesti dal form (custom-create).
-     */
+
     private void createUIComponents() {
         dataInizio = new JDateChooser();
         dataFine = new JDateChooser();
     }
 
     /**
-     * Crea e mostra la finestra del caso d'uso. Restituisce il {@link JFrame} creato.
+     * Crea e mostra la finestra del caso d'uso. Restituisce il JFrame creato.
      */
     public JFrame apriFormMonitoraggio() {
         JFrame frame = new JFrame("Monitoraggio ambulatorio");

@@ -6,16 +6,14 @@ import javax.swing.*;
 
 /**
  * Boundary del caso d'uso "Effettua prenotazione".
+ * La selezione di specializzazione, medico, giorno e fascia oraria avviene in
+ * "Visualizza disponibilità"; questa finestra riceve quei dati, mostra il
+ * riepilogo della prenotazione e il paziente conferma
+ * (→ registrazione + notifica di conferma) oppure annulla
+ * (→ conferma di annullamento, nessuna registrazione).
  *
- * <p>Coerente con il diagramma di sequenza UML "effettuazione prenotazione":
- * la selezione di specializzazione, medico, giorno e fascia oraria avviene in
- * "Visualizza disponibilità"; questa finestra riceve quei dati, <em>mostra il
- * riepilogo della prenotazione</em> e il paziente <em>conferma</em>
- * (→ registrazione + notifica di conferma) oppure <em>annulla</em>
- * (→ conferma di annullamento, nessuna registrazione).</p>
- *
- * <p>Non essendo implementato il login, il paziente si identifica inserendo la
- * propria email in questa finestra (semplificazione).</p>
+ * Non essendo implementato il login, il paziente si identifica inserendo la
+ * propria email in questa finestra (semplificazione).
  */
 public class FormEffettuaPrenotazione {
 
@@ -111,7 +109,7 @@ public class FormEffettuaPrenotazione {
         this.data = data;
         this.fascia = fascia;
 
-        // UML "mostra il riepilogo della prenotazione"
+        // mostra il riepilogo della prenotazione
         areaRiepilogo.setText(
                 "Riepilogo prenotazione\n"
                         + "-----------------------------\n"

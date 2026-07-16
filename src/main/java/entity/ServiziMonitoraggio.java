@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
  * Servizi di monitoraggio dell'andamento dell'ambulatorio (per l'amministratore).
  * Elabora le prenotazioni in un intervallo di tempo producendo i conteggi
  * richiesti: totale prenotazioni, annullamenti, distribuzione per specializzazione
- * e occupazione delle {@link FasciaOraria fasce orarie}.
+ * e occupazione delle fasce orarie.
  *
- * <p>Il chiamante filtra prima per intervallo con {@link #filtraPrenotazioniPerIntervallo}
+ * Il chiamante filtra prima per intervallo con filtraPrenotazioniPerIntervallo
  * e passa il risultato agli altri metodi, evitando di ripetere il filtro per data
- * ad ogni operazione.</p>
+ * ad ogni operazione.
  */
 public class ServiziMonitoraggio {
 

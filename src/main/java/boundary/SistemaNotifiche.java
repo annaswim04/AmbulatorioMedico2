@@ -1,12 +1,8 @@
 package boundary;
 
 /**
- * Astrazione del sistema di notifiche, collocata nella BOUNDARY.
- *
- * Pattern: ADAPTER (target). Il resto dell'applicazione dipende solo da questa
+ * Pattern: ADAPTER. Il resto dell'applicazione dipende solo da questa
  * interfaccia e ignora la libreria COTS concreta usata per l'invio (Jakarta Mail).
- * Sostituire il COTS significa fornire un'altra implementazione, senza toccare
- * controller o entity.
  */
 public interface SistemaNotifiche {
 

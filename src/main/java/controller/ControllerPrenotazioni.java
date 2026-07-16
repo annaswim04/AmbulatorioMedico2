@@ -19,24 +19,18 @@ import java.util.Map;
 
 /**
  * Controller di facciata per i casi d'uso legati alle prenotazioni.
- *
- * Pattern: FACADE. Gestisce il livello entity e non
- * contiene né codice Swing né accessi diretti al DB.
- *
- * Per rispettare il flusso BCED, i metodi non espongono oggetti di dominio:
- * ricevono e restituiscono solo tipi semplici e strutture di stringhe
- * (String, String[], List<String[]>, Map). È il controller a tradurre le entity in questi dati,
- * così la boundary non importa mai il package entity.
+ * Pattern: FACADE.
  */
+
 public class ControllerPrenotazioni {
 
-    // Esiti esposti alla boundary (rimappano quelli del registro)
+    // Esiti esposti alla boundary (riprendono quelli del registro)
     public static final int SUCCESSO = RegistroPrenotazioni.SUCCESSO;
     public static final int PAZIENTE_NON_ESISTENTE = RegistroPrenotazioni.PAZIENTE_NON_ESISTENTE;
     public static final int MEDICO_NON_ESISTENTE = RegistroPrenotazioni.MEDICO_NON_ESISTENTE;
     public static final int FASCIA_NON_DISPONIBILE = RegistroPrenotazioni.FASCIA_NON_DISPONIBILE;
 
-    // --- UC: Visualizza disponibilità ---
+    // --------------------------------- UC: Visualizza disponibilità ---------------------------------
 
     /** Nomi delle specializzazioni offerte dall'ambulatorio. */
     public static String[] getSpecializzazioni() {
@@ -84,8 +78,8 @@ public class ControllerPrenotazioni {
     }
 
     /**
-     * Date, nell'orizzonte di prenotazione, in cui un medico ha almeno una
-     * fascia oraria libera (usato per abilitare solo quei giorni nel calendario).
+     * Date in cui un medico ha almeno una fascia oraria libera
+     * (usato per abilitare solo quei giorni nel calendario).
      */
     public static String[] getDateDisponibili(String emailMedico) {
         RegistroUtenti registroUtenti = new RegistroUtenti();
@@ -102,7 +96,7 @@ public class ControllerPrenotazioni {
         return date;
     }
 
-    // --- UC: Effettua prenotazione ---
+    // --------------------------------- UC: Effettua prenotazione ---------------------------------
 
     /** Effettua una prenotazione; restituisce uno dei codici di esito pubblici. */
     public static int effettuaPrenotazione(String emailPaziente, String emailMedico,
@@ -111,10 +105,10 @@ public class ControllerPrenotazioni {
         return registroPrenotazioni.salvaPrenotazione(emailPaziente, emailMedico, data, fascia);
     }
 
-    // --- UC: Elenco prenotazioni (medico) ---
+    // --------------------------------- UC: Elenco prenotazioni (medico) ---------------------------------
 
     /**
-     * Filtrabile per data (formato yyyy-MM-dd) e/o fascia oraria. Filtri null o vuoti sono ignorati.
+     * Filtrabile per data e/o fascia oraria. Filtri null o vuoti sono ignorati.
      */
     public static List<String[]> visualizzaElencoPrenotazioni(String emailMedico, String filtroData, String filtroFascia) {
         List<String[]> righe = new ArrayList<>();
@@ -145,7 +139,7 @@ public class ControllerPrenotazioni {
         return nomi;
     }
 
-    // --- UC: Visualizza dati paziente (dal dettaglio elenco prenotazioni) ---
+    // Visualizza dati paziente (dal dettaglio elenco prenotazioni)
 
     /**
      * Dati anagrafici di un paziente, come riga {email, nome, cognome, recapito}.
@@ -162,15 +156,13 @@ public class ControllerPrenotazioni {
         };
     }
 
-    // --- UC: Monitoraggio ambulatorio ---
+    // --------------------------------- UC: Monitoraggio ambulatorio ---------------------------------
 
     /**
      * Riepilogo del monitoraggio, come mappa con tre chiavi:
-     * <ul>
-     *   <li>{@code "totali"} → una riga {@code {numeroPrenotazioni, numeroAnnullamenti}};</li>
-     *   <li>{@code "specializzazioni"} → righe {@code {nome, conteggio}};</li>
-     *   <li>{@code "fasce"} → righe {@code {fascia, occupazione}}.</li>
-     * </ul>
+     *  "totali" → riga {numeroPrenotazioni, numeroAnnullamenti}
+     *  "specializzazioni" → righe {nome, conteggio}
+     *  "fasce" → righe {fascia, occupazione}
      */
     public static Map<String, List<String[]>> visualizzaMonitoraggioAmbulatorio(String dataInizio, String dataFine) {
         RegistroPrenotazioni registroPrenotazioni = new RegistroPrenotazioni();

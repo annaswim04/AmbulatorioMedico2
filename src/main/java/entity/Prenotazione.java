@@ -12,8 +12,6 @@ import jakarta.persistence.ManyToOne;
 /**
  * Prenotazione di una visita: associa un Paziente a un Medico
  * in una certa data e fascia oraria, con uno stato.
- *
- * Sia la fascia oraria sia lo stato sono enum persistiti come stringa.
  */
 @Entity
 public class Prenotazione {
@@ -49,7 +47,6 @@ public class Prenotazione {
         this.stato = StatoPrenotazione.PRENOTATO;
     }
 
-    // --- Getter/Setter ---
 
     public Long getId() {
         return id;

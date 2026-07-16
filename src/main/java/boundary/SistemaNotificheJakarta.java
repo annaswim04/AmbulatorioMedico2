@@ -13,9 +13,8 @@ import java.util.Properties;
 
 /**
  * Implementazione COTS del sistema di notifiche via email con Jakarta Mail.
- * Pattern: ADAPTER (adaptee/concrete) + SINGLETON. Adatta la libreria esterna
+ * Pattern: ADAPTER + SINGLETON. Adatta la libreria esterna
  * Jakarta Mail all'interfaccia SistemaNotifiche.
- * La classe è package-private.
  */
 class SistemaNotificheJakarta implements SistemaNotifiche {
 
@@ -31,7 +30,7 @@ class SistemaNotificheJakarta implements SistemaNotifiche {
         return instance;
     }
 
-    // --- Configurazione SMTP di test (Ethereal) ---
+    // --- Configurazione SMTP (Ethereal) ---
     private static final String MITTENTE  = "frederique.schimmel@ethereal.email";
     private static final String PASSWORD  = "HsZw2teEyMg6ZvARBQ";
     private static final String SMTP_HOST = "smtp.ethereal.email";

@@ -10,16 +10,7 @@ import java.util.Objects;
 
 /**
  * Specializzazione medica offerta dall'ambulatorio.
- *
- * Modellata come entità (non enum): l'elenco delle specializzazioni non è
- * chiuso a priori e può crescere nel tempo senza richiedere una ricompilazione.
- *
- * <p>Possiede la relazione verso {@link Medico} (GRASP: information expert di
- * "quali medici ho"). La relazione resta LAZY (default JPA): è compito di chi
- * la interroga ({@link RegistroSpecializzazioni}) caricare manualmente i medici
- * con una query separata e ricollegarli con {@link #setMedici}, così come fa
- * {@code RegistroRimessaggio.cercaProprietarioPerIdProprietario_full} per
- * {@code Proprietario}/{@code Imbarcazione}.</p>
+ * Possiede la relazione verso Medico.
  */
 @Entity
 public class Specializzazione {
@@ -41,7 +32,7 @@ public class Specializzazione {
         return nome;
     }
 
-    /** Medici associati a questa specializzazione. */
+    /** Information expert di Medico: restituisce i medici associati a questa specializzazione. */
     public List<Medico> getMedici() {
         return medici;
     }

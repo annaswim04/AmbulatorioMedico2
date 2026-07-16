@@ -14,8 +14,8 @@ import java.util.List;
 
 /**
  * Popola il database con dati iniziali per provare l'applicazione.
- * L'inserimento è idempotente per singolo utente: ogni utente viene salvato solo
- * se non è già presente, così è possibile aggiungerne di nuovi senza azzerare il DB.
+ * Ogni utente viene salvato solo se non è già presente,
+ * così è possibile aggiungerne di nuovi senza azzerare il DB.
  */
 public class DatiTest {
 

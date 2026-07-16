@@ -4,11 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Finestra principale dell'applicazione: menu di accesso ai quattro casi d'uso
- * implementati. È il punto di ingresso della GUI Swing.
- *
- * <p>La UI è definita nel file FinestraPrincipale.form (GUI Designer di
- * IntelliJ): i campi sotto sono agganciati per nome ai componenti del form.</p>
+ * Finestra principale dell'applicazione: menu di accesso ai casi d'uso implementati.
  */
 public class FinestraPrincipale {
 
@@ -40,9 +36,7 @@ public class FinestraPrincipale {
     }
 
     /**
-     * Apre la finestra (o la porta in primo piano se già aperta) mostrando in un
-     * dialog qualunque eccezione, così un errore nella costruzione della finestra
-     * non resta silenzioso.
+     * Apre la finestra (o la porta in primo piano se già aperta).
      */
     private void apri(java.util.function.BooleanSupplier daAprire, Runnable apertura, Runnable inPrimoPiano) {
         try {

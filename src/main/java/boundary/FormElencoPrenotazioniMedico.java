@@ -12,10 +12,10 @@ import java.util.List;
  * Boundary del caso d'uso "Visualizza elenco prenotazioni (medico)".
  * Il medico consulta l'elenco delle visite prenotate presso il proprio ambulatorio
  * e, selezionando una riga, visualizza i dati anagrafici del paziente corrispondente.
- * La UI è definita in FormElencoPrenotazioniMedico.form. La boundary
- * comunica solo con il ControllerPrenotazioni e riceve le righe come
- * array di stringhe. 
+ * Non essendo implementato il login, il medico si identifica inserendo la
+ * propria email in questa finestra (semplificazione).
  */
+
 public class FormElencoPrenotazioniMedico {
 
     private JPanel elencoPrenotazioniPanel;
@@ -23,8 +23,6 @@ public class FormElencoPrenotazioniMedico {
     private JButton mostraButton;
     private JTextField campoFiltroData;
     private JComboBox<String> comboFiltroFascia;
-    // Bind del .form: avvolge "tabella" e abilita lo scroll con molte prenotazioni.
-    // Non richiamato direttamente in codice: il collegamento avviene per riflessione dal form loader.
     private JScrollPane ScrollPane;
     private JTable tabella;
 
@@ -37,7 +35,7 @@ public class FormElencoPrenotazioniMedico {
     };
 
     /**
-     * Righe complete restituite dal controller (con email paziente), parallele al modello di tabella.
+     * Righe complete restituite dal controller.
      */
     private final List<String[]> prenotazioniCorrenti = new ArrayList<>();
 

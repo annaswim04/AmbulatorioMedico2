@@ -15,7 +15,7 @@ public class RegistroSpecializzazioni {
     private final GestorePersistenza gestore = new GestorePersistenza();
 
     /**
-     * Specializzazione a partire dal nome (chiave primaria), con i medici
+     * Specializzazione a partire dal nome, con i medici
      * associati già caricati. Restituisce null se non esiste.
      */
     public Specializzazione getSpecializzazione(String nome) {
@@ -29,8 +29,7 @@ public class RegistroSpecializzazioni {
 
     /**
      * Specializzazioni effettivamente offerte dall'ambulatorio, cioè quelle
-     * per cui esiste almeno un medico: mostrarne una senza medici porterebbe a
-     * un vicolo cieco nella scelta del medico.
+     * per cui esiste almeno un medico.
      */
     public List<Specializzazione> getSpecializzazioni() {
         List<Specializzazione> offerte = new ArrayList<>();
@@ -49,8 +48,7 @@ public class RegistroSpecializzazioni {
     }
 
     /**
-     * Carica con una query separata i medici di una specializzazione (la
-     * relazione è LAZY) e li ricollega ad essa, mantenendo coerente
+     * Carica i medici di una specializzazione e li ricollega ad essa, mantenendo coerente
      * l'associazione bidirezionale.
      */
     private void caricaMedici(Specializzazione specializzazione) {

@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Medico dell'ambulatorio. Sottotipo di Utente, caratterizzato dalla
- * propria {@link Specializzazione}.
+ * Medico dell'ambulatorio. Sottotipo di Utente, caratterizzato dalla propria Specializzazione.
  */
 @Entity
 @DiscriminatorValue("MEDICO")
@@ -40,11 +39,9 @@ public class Medico extends Utente {
     }
 
     /**
-     * Informazione esperta (GRASP): tra le date indicate, quelle in cui il
+     * Information expert: tra le date indicate, quelle in cui il
      * medico ha almeno una fascia oraria libera, note le fasce già occupate
      * in ciascuna data.
-     *
-     * @param fasceOccupatePerData fasce occupate per ciascuna data (yyyy-MM-dd) da valutare
      */
     public List<DisponibilitaMedico> getDateDisponibili(Map<String, Set<FasciaOraria>> fasceOccupatePerData) {
         List<DisponibilitaMedico> dateDisponibili = new ArrayList<>();
