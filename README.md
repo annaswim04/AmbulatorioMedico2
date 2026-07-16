@@ -33,5 +33,5 @@ Le funzionalità principali includono:
 ## 📂 Struttura del Repository
 Il progetto è organizzato nelle seguenti directory:
 * **AmbulatorioMedico2/**: La directory contenente il progetto Java con l'implementazione delle funzionalità richieste, organizzato secondo i package `boundary`, `controller`, `entity`, `database`, `setup`.
-* **VisualParadigm/**: La directory contenente il file `.vpp` del progetto sviluppato tramite Visual Paradigm (diagrammi delle classi, dei casi d'uso, di sequenza e a stati), fonte di verità del modello di dominio.
+* **VisualParadigm/**: La directory contenente il file `.vpp` del progetto sviluppato tramite Visual Paradigm (diagrammi delle classi, dei casi d'uso, di sequenza e a stati).
 * **Documentazione/**: La directory contenente la documentazione in formato `.pdf` e `.docx`
